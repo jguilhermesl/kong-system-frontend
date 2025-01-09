@@ -1,4 +1,4 @@
-import { LoginTemplate } from '@/pageTemplates/LoginTemplate';
+import { LoginTemplate } from '@/pageTemplates/login-template';
 
 const Page = () => <LoginTemplate />;
 
