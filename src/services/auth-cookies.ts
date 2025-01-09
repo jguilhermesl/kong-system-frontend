@@ -12,14 +12,17 @@ const handleGetAuthToken = () => {
   };
 };
 
-const handleSetAuthToken = ({ accessToken, refreshToken }: { accessToken: string, refreshToken: string }) => {
+
+const handleSetAuthToken = ({ accessToken, refreshToken, role }: { accessToken: string, refreshToken: string, role: "admin" | "client" }) => {
   setCookie(TOKENS.ACCESS_TOKEN, accessToken);
   setCookie(TOKENS.REFRESH_TOKEN, refreshToken);
+  setCookie(TOKENS.ROLE, role);
 };
 
 const handleDeleteAuthToken = () => {
   deleteCookie(TOKENS.ACCESS_TOKEN);
   deleteCookie(TOKENS.REFRESH_TOKEN);
+  deleteCookie(TOKENS.ROLE);
 };
 
 const handleGetCurrentUrl = () => {

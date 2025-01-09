@@ -1,3 +1,4 @@
+import { handleInterceptorErrorResponseAPI, handleInterceptorRequestAPI } from "@/utils/handle-interceptor-API";
 import axios from "axios";
 
 const api = axios.create({
@@ -5,17 +6,17 @@ const api = axios.create({
   validateStatus: (status) => status >= 200 && status <= 299
 });
 
-// api.interceptors.request.use(async (config) => {
-//   return handleInterceptorRequestAPI(config);
-// });
+api.interceptors.request.use(async (config) => {
+  return handleInterceptorRequestAPI(config);
+});
 
-// api.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   async (error) => {
-//     return await handleInterceptorErrorResponseAPI(api, error);
-//   }
-// );
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    return await handleInterceptorErrorResponseAPI(api, error);
+  }
+);
 
 export default api;

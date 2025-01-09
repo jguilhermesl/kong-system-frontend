@@ -1,4 +1,5 @@
 export enum ROUTES_PATH {
-  HOME = '/',
+  ADMIN_HOME = '/admin/home',
+  CLIENT_HOME = '/home',
   CURRENT_URL = '@kongGamesCurrentUrl',
 }

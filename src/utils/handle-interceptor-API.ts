@@ -6,6 +6,7 @@ import {
   handleDeleteAuthToken,
   handleSetCurrentUrl,
 } from '@/services/auth-cookies';
+import { refreshToken as handleRefreshToken } from '@/api/auth/refresh-token';
 
 export const handleInterceptorRequestAPI = (configRequest: any) => {
   const { accessToken } = handleGetAuthToken();
@@ -33,9 +34,9 @@ export const handleInterceptorErrorResponseAPI = async (
 
       const { refreshToken, accessToken } = handleGetAuthToken();
 
-      // const { accessToken: token } = await handleRefreshToken(accessToken, refreshToken);
+      const { accessToken: token, role } = await handleRefreshToken(accessToken, refreshToken);
 
-      handleSetAuthToken({ accessToken: token, refreshToken });
+      handleSetAuthToken({ accessToken: token, refreshToken, role });
 
       configResponse.headers = {
         ...configResponse.headers,
