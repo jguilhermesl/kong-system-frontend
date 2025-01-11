@@ -8,6 +8,7 @@ import loginSchema from '../../schemas/loginSchema';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from '@/utils/toast';
 import { Spinner } from '@/components/ui/spinner';
+import Link from 'next/link';
 
 export const LoginTemplate = () => {
   const { handleSignIn } = useAuth();
@@ -69,6 +70,9 @@ export const LoginTemplate = () => {
             )}
           </Button>
         </form>
+        <Link className="mt-2" href={'/signUp'}>
+          <p className="font-bold">Cadastre-se</p>
+        </Link>
       </div>
     </div>
   );
