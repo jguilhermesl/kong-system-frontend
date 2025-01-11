@@ -6,7 +6,7 @@ import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { CreateUserSchema } from '@/schemas/createUsersSchema';
-import { formatCPF } from '@/utils/formatCpf';
+import { formatCPF } from '@/utils/formatCPF';
 import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
 import { toast } from '@/utils/toast';
 import { useFormik } from 'formik';
@@ -64,7 +64,7 @@ export const CreateUserTemplate = () => {
   return (
     <PrivateLayout title="Criar Usuários">
       <form
-        className="w-full md:ml-8 md:w-[400px] flex flex-col gap-4"
+        className="w-full md:ml-2 md:w-[400px] flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
         <FormInputField
@@ -105,6 +105,7 @@ export const CreateUserTemplate = () => {
           {...getFieldProps('password')}
           onChange={(e) => setFieldValue('password', e.target.value)}
           label="Senha"
+          maxLength={8}
           placeholder="Digite uma senha válida"
           className="w-full"
           error={errors.password}
