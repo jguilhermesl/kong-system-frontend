@@ -6,12 +6,17 @@ import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { CreateUserSchema } from '@/schemas/createUsersSchema';
+import { queryClient } from '@/services/react-query';
 import { formatCPF } from '@/utils/formatCPF';
 import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
 import { toast } from '@/utils/toast';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export const CreateUserTemplate = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const handleSignUp = async (values: {
     name: string;
     email: string;
@@ -20,8 +25,8 @@ export const CreateUserTemplate = () => {
     password: string;
     role: string;
   }) => {
+    setLoading(true);
     const formattedPhone = formatPhoneUsers(values.phone);
-
     const body: ICreateUsersBody = {
       name: values.name,
       email: values.email,
@@ -34,10 +39,15 @@ export const CreateUserTemplate = () => {
     try {
       await createUsers(body);
       toast('success', 'Usuário criado com sucesso!');
-      console.log(values);
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+      });
       resetForm();
+      router.push('/admin/users');
     } catch (error) {
       toast('error', 'Erro ao criar o usuário.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,75 +73,81 @@ export const CreateUserTemplate = () => {
 
   return (
     <PrivateLayout title="Criar Usuários">
-      <form
-        className="w-full md:ml-2 md:w-[400px] flex flex-col gap-4"
-        onSubmit={handleSubmit}
-      >
-        <FormInputField
-          {...getFieldProps('name')}
-          onChange={(e) => setFieldValue('name', e.target.value)}
-          label="Nome"
-          placeholder="Digite o nome"
-          className="w-full"
-          error={errors.name}
-        />
-        <FormInputField
-          {...getFieldProps('phone')}
-          onChange={(e) =>
-            setFieldValue('phone', formatPhoneUsers(e.target.value))
-          }
-          label="Telefone"
-          placeholder="Digite o telefone"
-          className="w-full"
-          error={errors.phone}
-        />
-        <FormInputField
-          {...getFieldProps('cpf')}
-          onChange={(e) => setFieldValue('cpf', formatCPF(e.target.value))}
-          label="CPF"
-          placeholder="Digite o CPF"
-          className="w-full"
-          error={errors.cpf}
-        />
-        <FormInputField
-          {...getFieldProps('email')}
-          onChange={(e) => setFieldValue('email', e.target.value)}
-          label="E-mail"
-          placeholder="Digite o e-mail"
-          className="w-full"
-          error={errors.email}
-        />
-        <FormInputField
-          {...getFieldProps('password')}
-          onChange={(e) => setFieldValue('password', e.target.value)}
-          label="Senha"
-          maxLength={8}
-          placeholder="Digite uma senha válida"
-          className="w-full"
-          error={errors.password}
-        />
-        <FormSelectField
-          {...getFieldProps('role')}
-          onChange={(value: string) => setFieldValue('role', value)}
-          label="Função"
-          placeholder="Escolha o cargo"
-          className="w-full"
-          choices={[
-            { value: 'admin', label: 'Administrador' },
-            { value: 'client', label: 'Cliente' },
-          ]}
-        />
-        <Button
-          type="submit"
-          className="!rounded-md !font-poppins !font-medium mt-4"
+      {loading ? (
+        <div className="flex w-full justify-center">
+          <Spinner className="!text-primary" />
+        </div>
+      ) : (
+        <form
+          className="w-full md:ml-2 md:w-[400px] flex flex-col gap-4"
+          onSubmit={handleSubmit}
         >
-          {isSubmitting ? (
-            <Spinner className="border-l-white border-t-white" />
-          ) : (
-            'Adicionar usuário'
-          )}
-        </Button>
-      </form>
+          <FormInputField
+            {...getFieldProps('name')}
+            onChange={(e) => setFieldValue('name', e.target.value)}
+            label="Nome"
+            placeholder="Digite o nome"
+            className="w-full"
+            error={errors.name}
+          />
+          <FormInputField
+            {...getFieldProps('phone')}
+            onChange={(e) =>
+              setFieldValue('phone', formatPhoneUsers(e.target.value))
+            }
+            label="Telefone"
+            placeholder="Digite o telefone"
+            className="w-full"
+            error={errors.phone}
+          />
+          <FormInputField
+            {...getFieldProps('cpf')}
+            onChange={(e) => setFieldValue('cpf', formatCPF(e.target.value))}
+            label="CPF"
+            placeholder="Digite o CPF"
+            className="w-full"
+            error={errors.cpf}
+          />
+          <FormInputField
+            {...getFieldProps('email')}
+            onChange={(e) => setFieldValue('email', e.target.value)}
+            label="E-mail"
+            placeholder="Digite o e-mail"
+            className="w-full"
+            error={errors.email}
+          />
+          <FormInputField
+            {...getFieldProps('password')}
+            onChange={(e) => setFieldValue('password', e.target.value)}
+            label="Senha"
+            maxLength={8}
+            placeholder="Digite uma senha válida"
+            className="w-full"
+            error={errors.password}
+          />
+          <FormSelectField
+            {...getFieldProps('role')}
+            onChange={(value: string) => setFieldValue('role', value)}
+            label="Função"
+            placeholder="Escolha o cargo"
+            className="w-full"
+            choices={[
+              { value: 'admin', label: 'Administrador' },
+              { value: 'client', label: 'Cliente' },
+            ]}
+          />
+          <Button
+            type="submit"
+            className="!rounded-md !font-poppins !font-medium mt-4"
+          >
+            {isSubmitting ? (
+              <Spinner className="border-l-white border-t-white" />
+            ) : (
+              'Adicionar usuário'
+            )}
+          </Button>
+        </form>
+      )}
     </PrivateLayout>
   );
 };
