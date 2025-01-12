@@ -1,0 +1,149 @@
+'use client';
+import { fetchUsers } from '@/api/users/fetch-users';
+import { IUpdateUsersBody, updateUsers } from '@/api/users/update-users';
+import { FormInputField } from '@/components/form-input-field';
+import { FormSelectField } from '@/components/form-select-field';
+import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { queryClient } from '@/services/react-query';
+import { formatCPF } from '@/utils/formatCPF';
+import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
+import { toast } from '@/utils/toast';
+import { UpdateUserSchema } from '@/utils/updateUsersSchema';
+import { useQuery } from '@tanstack/react-query';
+import { useFormik } from 'formik';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+export const UpdateUserTemplate = () => {
+  const router = useRouter();
+  const { id } = useParams();
+  const userId = id?.toLocaleString() || '';
+  const { data: usersData } = useQuery({
+    queryFn: fetchUsers,
+    queryKey: ['users'],
+  });
+
+  const userUpdate = usersData?.data?.find((user: any) => user.id === id);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleUpdate = async (values: {
+    name: string;
+    phone: string;
+    cpf: string;
+    email: string;
+    role: string;
+  }) => {
+    setLoading(true);
+    const formattedPhone = formatPhoneUsers(values.phone);
+
+    const body: IUpdateUsersBody = {
+      name: values.name,
+      email: values.email,
+      cpf: values.cpf,
+      phone: formattedPhone,
+      role: values.role as 'admin' | 'client',
+    };
+
+    try {
+      await updateUsers(body, userId);
+      toast('success', 'Usuário editado com sucesso!');
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+      });
+      resetForm();
+      router.push('/admin/users');
+    } catch (error) {
+      toast('error', 'Erro ao editar o usuário.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const { handleSubmit, getFieldProps, setFieldValue, errors, resetForm } =
+    useFormik({
+      initialValues: {
+        name: userUpdate?.name || '',
+        phone: userUpdate?.phone || '',
+        cpf: userUpdate?.cpf || '',
+        email: userUpdate?.email || '',
+        role: userUpdate?.role || 'client',
+      },
+      validationSchema: UpdateUserSchema,
+      onSubmit: handleUpdate,
+    });
+
+  return (
+    <PrivateLayout title="Editar Usuários">
+      {loading ? (
+        <div className="flex w-full justify-center">
+          <Spinner className="!text-primary" />
+        </div>
+      ) : (
+        <form
+          className="w-full md:ml-2 md:w-[400px] flex flex-col gap-4"
+          onSubmit={handleSubmit}
+        >
+          <FormInputField
+            {...getFieldProps('name')}
+            onChange={(e) => setFieldValue('name', e.target.value)}
+            label="Nome"
+            placeholder="Digite o nome"
+            className="w-full"
+            error={errors.name}
+          />
+          <FormInputField
+            {...getFieldProps('phone')}
+            onChange={(e) =>
+              setFieldValue('phone', formatPhoneUsers(e.target.value))
+            }
+            label="Telefone"
+            placeholder="Digite o telefone"
+            className="w-full"
+            error={errors.phone}
+          />
+          <FormInputField
+            {...getFieldProps('cpf')}
+            onChange={(e) => setFieldValue('cpf', formatCPF(e.target.value))}
+            label="CPF"
+            placeholder="Digite o CPF"
+            className="w-full"
+            error={errors.cpf}
+          />
+          <FormInputField
+            {...getFieldProps('email')}
+            onChange={(e) => setFieldValue('email', e.target.value)}
+            label="E-mail"
+            placeholder="Digite o e-mail"
+            className="w-full"
+            error={errors.email}
+          />
+          <FormSelectField
+            {...getFieldProps('role')}
+            onChange={(value: string) => setFieldValue('role', value)}
+            label="Função"
+            placeholder="Escolha o cargo"
+            className="w-full"
+            choices={[
+              { value: 'admin', label: 'Administrador' },
+              { value: 'client', label: 'Cliente' },
+            ]}
+          />
+          <Button
+            type="submit"
+            className="!rounded-md !font-poppins !font-medium mt-4"
+            disabled={loading}
+          >
+            {loading ? (
+              <Spinner className="border-l-white border-t-white" />
+            ) : (
+              'Editar usuário'
+            )}
+          </Button>
+        </form>
+      )}
+    </PrivateLayout>
+  );
+};
