@@ -11,23 +11,35 @@ import { formatCPF } from '@/utils/formatCPF';
 import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
 import { toast } from '@/utils/toast';
 import { UpdateUserSchema } from '@/utils/updateUsersSchema';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export const UpdateUserTemplate = () => {
   const router = useRouter();
   const { id } = useParams();
   const userId = id?.toLocaleString() || '';
+
+  const { mutateAsync: updateUserFn, isPending: isUpdating } = useMutation({
+    mutationFn: ({
+      body,
+      userId,
+    }: {
+      body: IUpdateUsersBody;
+      userId: string;
+    }) => updateUsers(body, userId),
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+      });
+    },
+  });
   const { data: usersData } = useQuery({
     queryFn: fetchUsers,
     queryKey: ['users'],
   });
 
   const userUpdate = usersData?.data?.find((user: any) => user.id === id);
-
-  const [loading, setLoading] = useState(false);
 
   const handleUpdate = async (values: {
     name: string;
@@ -36,7 +48,6 @@ export const UpdateUserTemplate = () => {
     email: string;
     role: string;
   }) => {
-    setLoading(true);
     const formattedPhone = formatPhoneUsers(values.phone);
 
     const body: IUpdateUsersBody = {
@@ -48,7 +59,7 @@ export const UpdateUserTemplate = () => {
     };
 
     try {
-      await updateUsers(body, userId);
+      await updateUserFn({ body, userId });
       toast('success', 'Usuário editado com sucesso!');
       queryClient.invalidateQueries({
         queryKey: ['users'],
@@ -57,8 +68,6 @@ export const UpdateUserTemplate = () => {
       router.push('/admin/users');
     } catch (error) {
       toast('error', 'Erro ao editar o usuário.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -77,7 +86,7 @@ export const UpdateUserTemplate = () => {
 
   return (
     <PrivateLayout title="Editar Usuários">
-      {loading ? (
+      {isUpdating ? (
         <div className="flex w-full justify-center">
           <Spinner className="!text-primary" />
         </div>
@@ -134,9 +143,8 @@ export const UpdateUserTemplate = () => {
           <Button
             type="submit"
             className="!rounded-md !font-poppins !font-medium mt-4"
-            disabled={loading}
           >
-            {loading ? (
+            {isUpdating ? (
               <Spinner className="border-l-white border-t-white" />
             ) : (
               'Editar usuário'
