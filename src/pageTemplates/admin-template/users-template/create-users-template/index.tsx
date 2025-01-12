@@ -10,12 +10,20 @@ import { queryClient } from '@/services/react-query';
 import { formatCPF } from '@/utils/formatCPF';
 import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
 import { toast } from '@/utils/toast';
+import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const CreateUserTemplate = () => {
-  const [loading, setLoading] = useState(false);
+  const { mutateAsync: createUserFn, isPending: isCreating } = useMutation({
+    mutationFn: createUsers,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+      });
+    },
+  });
   const router = useRouter();
   const handleSignUp = async (values: {
     name: string;
@@ -25,7 +33,6 @@ export const CreateUserTemplate = () => {
     password: string;
     role: string;
   }) => {
-    setLoading(true);
     const formattedPhone = formatPhoneUsers(values.phone);
     const body: ICreateUsersBody = {
       name: values.name,
@@ -37,7 +44,7 @@ export const CreateUserTemplate = () => {
     };
 
     try {
-      await createUsers(body);
+      await createUserFn(body);
       toast('success', 'Usuário criado com sucesso!');
       queryClient.invalidateQueries({
         queryKey: ['users'],
@@ -46,8 +53,6 @@ export const CreateUserTemplate = () => {
       router.push('/admin/users');
     } catch (error) {
       toast('error', 'Erro ao criar o usuário.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -73,7 +78,7 @@ export const CreateUserTemplate = () => {
 
   return (
     <PrivateLayout title="Criar Usuários">
-      {loading ? (
+      {isCreating ? (
         <div className="flex w-full justify-center">
           <Spinner className="!text-primary" />
         </div>
