@@ -1,7 +1,7 @@
 import api from "@/services/api";
 
 
-export interface ICreateUsersBody {
+export interface CreateUserProps {
   name: string,
   phone: string,
   cpf: string
@@ -10,7 +10,7 @@ export interface ICreateUsersBody {
   role: "admin" | "client"
 }
 
-export async function createUsers(body: ICreateUsersBody) {
+export async function createUser(body: CreateUserProps) {
   const response = await api.post(`/user`, body);
   return response.data;
 }

@@ -1,30 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { createUsers, ICreateUsersBody } from '@/api/users/create-users';
+import { createUser, CreateUserProps } from '@/api/users/create-user';
 import { FormInputField } from '@/components/form-input-field';
 import { FormSelectField } from '@/components/form-select-field';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { CreateUserSchema } from '@/schemas/createUsersSchema';
+import { createUserSchema } from '@/schemas/create-user-schema';
 import { queryClient } from '@/services/react-query';
 import { formatCPF } from '@/utils/formatCPF';
-import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
+import { formatPhone } from '@/utils/formatPhone';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export const CreateUserTemplate = () => {
+  const router = useRouter();
   const { mutateAsync: createUserFn, isPending: isCreating } = useMutation({
-    mutationFn: createUsers,
+    mutationFn: createUser,
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });
     },
   });
-  const router = useRouter();
+
   const handleSignUp = async (values: {
     name: string;
     email: string;
@@ -33,8 +34,8 @@ export const CreateUserTemplate = () => {
     password: string;
     role: string;
   }) => {
-    const formattedPhone = formatPhoneUsers(values.phone);
-    const body: ICreateUsersBody = {
+    const formattedPhone = formatPhone(values.phone);
+    const body: CreateUserProps = {
       name: values.name,
       email: values.email,
       cpf: values.cpf,
@@ -51,8 +52,8 @@ export const CreateUserTemplate = () => {
       });
       resetForm();
       router.push('/admin/users');
-    } catch (error) {
-      toast('error', 'Erro ao criar o usuário.');
+    } catch (error: any) {
+      toast('error', error?.message || 'Erro ao criar o usuário.');
     }
   };
 
@@ -72,12 +73,12 @@ export const CreateUserTemplate = () => {
       password: '',
       role: 'client',
     },
-    validationSchema: CreateUserSchema,
+    validationSchema: createUserSchema,
     onSubmit: handleSignUp,
   });
 
   return (
-    <PrivateLayout title="Criar Usuários">
+    <PrivateLayout title="Criar Usuário">
       {isCreating ? (
         <div className="flex w-full justify-center">
           <Spinner className="!text-primary" />
@@ -98,7 +99,7 @@ export const CreateUserTemplate = () => {
           <FormInputField
             {...getFieldProps('phone')}
             onChange={(e) =>
-              setFieldValue('phone', formatPhoneUsers(e.target.value))
+              setFieldValue('phone', formatPhone(e.target.value))
             }
             label="Telefone"
             placeholder="Digite o telefone"
@@ -125,7 +126,6 @@ export const CreateUserTemplate = () => {
             {...getFieldProps('password')}
             onChange={(e) => setFieldValue('password', e.target.value)}
             label="Senha"
-            maxLength={8}
             placeholder="Digite uma senha válida"
             className="w-full"
             error={errors.password}

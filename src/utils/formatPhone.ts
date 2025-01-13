@@ -1,4 +1,4 @@
-export const formatPhoneUsers = (value: string) => {
+export const formatPhone = (value: string) => {
   return value
     .replace(/\D/g, "")
     .replace(/^(\d{2})(\d)/, "$1 $2")
