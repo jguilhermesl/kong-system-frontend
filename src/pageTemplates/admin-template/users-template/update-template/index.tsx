@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { fetchUsers } from '@/api/users/fetch-users';
-import { IUpdateUsersBody, updateUsers } from '@/api/users/update-users';
+import { IUpdateUsersBody, updateUsers } from '@/api/users/update-user';
 import { FormInputField } from '@/components/form-input-field';
 import { FormSelectField } from '@/components/form-select-field';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';

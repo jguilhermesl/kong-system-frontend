@@ -1,16 +1,17 @@
-import { InputHTMLAttributes, ReactNode, useState } from "react";
-import { Input } from "./ui/input";
-import { Paragraph } from "./ui/paragraph";
-import { Eye, EyeOff } from "lucide-react";
+import { InputHTMLAttributes, ReactNode, useState } from 'react';
+import { Input } from './ui/input';
+import { Paragraph } from './ui/paragraph';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface IFormInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   description?: string;
   className?: string;
-  onChange?: (e) => void;
+  onChange?: (e: any) => void;
   value?: string;
   iconRight?: ReactNode;
+  error?: string;
 }
 
 export const FormPasswordField = ({
@@ -21,6 +22,7 @@ export const FormPasswordField = ({
   className,
   onChange,
   iconRight,
+  error,
   ...props
 }: IFormInputFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +32,7 @@ export const FormPasswordField = ({
       {label && <Paragraph className="font-medium">{label}</Paragraph>}
       <Input
         {...props}
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         placeholder={placeholder}
         onChange={onChange}
         value={value}
@@ -62,6 +64,7 @@ export const FormPasswordField = ({
           {description}
         </Paragraph>
       )}
+      {error && <p className="text-red-500 mt-1 text-sm">{error}</p>}
     </div>
   );
 };
