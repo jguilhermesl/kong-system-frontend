@@ -20,6 +20,7 @@ export const UsersTableRow = ({ item }: UserTableRowProps) => {
         </div>
       </TableCell>
       <TableCell className="font-medium">{item.email}</TableCell>
+      <TableCell className="font-medium">{item.createdAt}</TableCell>
       <TableCell>
         <Button
           variant="outline"
