@@ -1,85 +1,89 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { createUser, CreateUserProps } from '@/api/users/create-user';
+import { fetchUsers } from '@/api/users/fetch-users';
+import { UpdateUserProps, updateUser } from '@/api/users/update-user';
 import { FormInputField } from '@/components/form-input-field';
 import { FormSelectField } from '@/components/form-select-field';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { createUserSchema } from '@/schemas/create-user-schema';
+import { updateUserSchema } from '@/schemas/update-user-schema';
 import { queryClient } from '@/services/react-query';
 import { formatCPF } from '@/utils/formatCPF';
 import { formatPhone } from '@/utils/format-phone';
 import { toast } from '@/utils/toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
-export const CreateUserTemplate = () => {
+export const UpdateUserTemplate = () => {
   const router = useRouter();
-  const { mutateAsync: createUserFn, isPending: isCreating } = useMutation({
-    mutationFn: createUser,
+  const { id } = useParams();
+  const userId = id?.toLocaleString() || '';
+
+  const { mutateAsync: updateUserFn, isPending: isUpdating } = useMutation({
+    mutationFn: ({ body, userId }: { body: UpdateUserProps; userId: string }) =>
+      updateUser(body, userId),
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });
     },
   });
+  const { data: usersData } = useQuery({
+    queryFn: fetchUsers,
+    queryKey: ['users'],
+  });
 
-  const handleSignUp = async (values: {
+  const userUpdate = usersData?.data?.find((user: any) => user.id === id);
+
+  const handleUpdate = async (values: {
     name: string;
-    email: string;
-    cpf: string;
     phone: string;
-    password: string;
+    cpf: string;
+    email: string;
     role: string;
   }) => {
     const formattedPhone = formatPhone(values.phone);
-    const body: CreateUserProps = {
+
+    const body: UpdateUserProps = {
       name: values.name,
       email: values.email,
       cpf: values.cpf,
       phone: formattedPhone,
-      password: values.password,
       role: values.role as 'admin' | 'client',
     };
 
     try {
-      await createUserFn(body);
-      toast('success', 'Usuário criado com sucesso!');
+      await updateUserFn({ body, userId });
+      toast('success', 'Usuário editado com sucesso!');
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });
       resetForm();
       router.push('/admin/users');
     } catch (error: any) {
-      toast('error', error?.message || 'Erro ao criar o usuário.');
+      toast('error', error?.message || 'Erro ao editar o usuário.');
     }
   };
 
-  const {
-    handleSubmit,
-    getFieldProps,
-    setFieldValue,
-    errors,
-    isSubmitting,
-    resetForm,
-  } = useFormik({
-    initialValues: {
-      name: '',
-      phone: '',
-      cpf: '',
-      email: '',
-      password: '',
-      role: 'client',
-    },
-    validationSchema: createUserSchema,
-    onSubmit: handleSignUp,
-  });
+  const { handleSubmit, getFieldProps, setFieldValue, errors, resetForm } =
+    useFormik({
+      initialValues: {
+        name: userUpdate?.name || '',
+        phone: userUpdate?.phone || '',
+        cpf: userUpdate?.cpf || '',
+        email: userUpdate?.email || '',
+        role: userUpdate?.role || 'client',
+      },
+      enableReinitialize: true,
+      validationSchema: updateUserSchema,
+      onSubmit: handleUpdate,
+    });
 
   return (
-    <PrivateLayout title="Criar Usuário">
-      {isCreating ? (
+    <PrivateLayout title="Editar Usuários">
+      {isUpdating ? (
         <div className="flex w-full justify-center">
           <Spinner className="!text-primary" />
         </div>
@@ -122,14 +126,6 @@ export const CreateUserTemplate = () => {
             className="w-full"
             error={errors.email}
           />
-          <FormInputField
-            {...getFieldProps('password')}
-            onChange={(e) => setFieldValue('password', e.target.value)}
-            label="Senha"
-            placeholder="Digite uma senha válida"
-            className="w-full"
-            error={errors.password}
-          />
           <FormSelectField
             {...getFieldProps('role')}
             onChange={(value: string) => setFieldValue('role', value)}
@@ -145,10 +141,10 @@ export const CreateUserTemplate = () => {
             type="submit"
             className="!rounded-md !font-poppins !font-medium mt-4"
           >
-            {isSubmitting ? (
+            {isUpdating ? (
               <Spinner className="border-l-white border-t-white" />
             ) : (
-              'Adicionar usuário'
+              'Editar usuário'
             )}
           </Button>
         </form>
