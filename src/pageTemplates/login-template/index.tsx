@@ -4,7 +4,7 @@ import { FormPasswordField } from '@/components/form-password-field';
 import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { useFormik } from 'formik';
-import loginSchema from '../../schemas/loginSchema';
+import loginSchema from '../../schemas/login-schema';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from '@/utils/toast';
 import { Spinner } from '@/components/ui/spinner';
@@ -70,8 +70,11 @@ export const LoginTemplate = () => {
             )}
           </Button>
         </form>
-        <Link className="mt-2" href={'/signUp'}>
-          <p className="font-bold">Cadastre-se</p>
+        <Link
+          className="mt-2 sm:flex hover:underline py-2 px-4 rounded-lg "
+          href={'/sign-up'}
+        >
+          <p className="font-bold text-sm">Não tem login? Cadastre-se</p>
         </Link>
       </div>
     </div>

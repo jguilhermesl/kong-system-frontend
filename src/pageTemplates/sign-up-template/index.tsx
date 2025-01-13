@@ -1,11 +1,10 @@
 'use client';
-
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
 import { Heading } from '@/components/ui/heading';
-import { SignUpSchema } from '@/schemas/signUpSchema';
+import { signUpSchema } from '@/schemas/sign-up-schema';
 import { FormInputField } from '@/components/form-input-field';
 import { Spinner } from '@/components/ui/spinner';
 import { FormPasswordField } from '@/components/form-password-field';
@@ -42,8 +41,9 @@ export const SignUpTemplate = () => {
       password: '',
       confirmedPassword: '',
     },
-    validationSchema: SignUpSchema,
+    validationSchema: signUpSchema,
     onSubmit: handleSignUp,
+    isInitialValid: true,
   });
 
   return (
@@ -58,12 +58,6 @@ export const SignUpTemplate = () => {
         <p className="text-sm text-default-grey !font-poppins">
           Insira seus dados abaixo para fazer cadastro
         </p>
-        <Link
-          className="mt-2 sm:flex sm:absolute underline hidden sm:right-5 sm:top-5"
-          href={'/'}
-        >
-          <p className="font-bold text-sm">Fazer Login</p>
-        </Link>
         <form
           className="w-full md:w-[400px] mt-6 flex flex-col gap-4"
           onSubmit={handleSubmit}
@@ -138,8 +132,11 @@ export const SignUpTemplate = () => {
             )}
           </Button>
         </form>
-        <Link className="mt-3 underline flex sm:hidden" href={'/'}>
-          <p className="font-bold text-sm">já possuo login</p>
+        <Link
+          className="mt-2 sm:flex hover:underline py-2 px-4 rounded-lg "
+          href={'/'}
+        >
+          <p className="font-bold text-sm">Já tem cadastro? Faça login</p>
         </Link>
       </div>
     </div>

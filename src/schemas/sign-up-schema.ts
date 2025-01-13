@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const SignUpSchema = Yup.object().shape({
+export const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
   cpf: Yup.string().min(14, "O CPF deve conter 11 caracteres")
@@ -11,7 +11,7 @@ export const SignUpSchema = Yup.object().shape({
       "Formato de telefone inválido"
     ).required('Telefone é obrigatório'),
   password: Yup.string()
-    .min(6, 'Senha deve ter pelo menos 6 caracteres').max(8, 'Senha não pode ter mais que 8 caracteres')
+    .min(4, 'Senha deve ter pelo menos 4 caracteres')
     .required('Senha é obrigatória'),
   confirmedPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'As senhas devem coincidir')
