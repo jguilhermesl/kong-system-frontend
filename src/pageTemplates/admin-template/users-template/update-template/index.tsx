@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { fetchUsers } from '@/api/users/fetch-users';
-import { IUpdateUsersBody, updateUsers } from '@/api/users/update-user';
+import { UpdateUserProps, updateUser } from '@/api/users/update-user';
 import { FormInputField } from '@/components/form-input-field';
 import { FormSelectField } from '@/components/form-select-field';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { updateUserSchema } from '@/schemas/update-user-schema';
 import { queryClient } from '@/services/react-query';
 import { formatCPF } from '@/utils/formatCPF';
-import { formatPhoneUsers } from '@/utils/formatPhoneUsers';
+import { formatPhone } from '@/utils/format-phone';
 import { toast } from '@/utils/toast';
-import { UpdateUserSchema } from '@/utils/updateUsersSchema';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
@@ -22,13 +22,8 @@ export const UpdateUserTemplate = () => {
   const userId = id?.toLocaleString() || '';
 
   const { mutateAsync: updateUserFn, isPending: isUpdating } = useMutation({
-    mutationFn: ({
-      body,
-      userId,
-    }: {
-      body: IUpdateUsersBody;
-      userId: string;
-    }) => updateUsers(body, userId),
+    mutationFn: ({ body, userId }: { body: UpdateUserProps; userId: string }) =>
+      updateUser(body, userId),
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ['users'],
@@ -49,9 +44,9 @@ export const UpdateUserTemplate = () => {
     email: string;
     role: string;
   }) => {
-    const formattedPhone = formatPhoneUsers(values.phone);
+    const formattedPhone = formatPhone(values.phone);
 
-    const body: IUpdateUsersBody = {
+    const body: UpdateUserProps = {
       name: values.name,
       email: values.email,
       cpf: values.cpf,
@@ -67,8 +62,8 @@ export const UpdateUserTemplate = () => {
       });
       resetForm();
       router.push('/admin/users');
-    } catch (error) {
-      toast('error', 'Erro ao editar o usuário.');
+    } catch (error: any) {
+      toast('error', error?.message || 'Erro ao editar o usuário.');
     }
   };
 
@@ -81,7 +76,8 @@ export const UpdateUserTemplate = () => {
         email: userUpdate?.email || '',
         role: userUpdate?.role || 'client',
       },
-      validationSchema: UpdateUserSchema,
+      enableReinitialize: true,
+      validationSchema: updateUserSchema,
       onSubmit: handleUpdate,
     });
 
@@ -107,7 +103,7 @@ export const UpdateUserTemplate = () => {
           <FormInputField
             {...getFieldProps('phone')}
             onChange={(e) =>
-              setFieldValue('phone', formatPhoneUsers(e.target.value))
+              setFieldValue('phone', formatPhone(e.target.value))
             }
             label="Telefone"
             placeholder="Digite o telefone"

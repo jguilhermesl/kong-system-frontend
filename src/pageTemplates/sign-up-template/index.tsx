@@ -8,7 +8,7 @@ import { signUpSchema } from '@/schemas/sign-up-schema';
 import { FormInputField } from '@/components/form-input-field';
 import { Spinner } from '@/components/ui/spinner';
 import { FormPasswordField } from '@/components/form-password-field';
-import { formatPhone } from '@/utils/formatPhone';
+import { formatPhone } from '@/utils/format-phone';
 import { formatCPF } from '@/utils/formatCPF';
 import { FileUser, IdCard, Mail, Phone } from 'lucide-react';
 

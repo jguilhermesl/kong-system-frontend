@@ -9,7 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { createUserSchema } from '@/schemas/create-user-schema';
 import { queryClient } from '@/services/react-query';
 import { formatCPF } from '@/utils/formatCPF';
-import { formatPhone } from '@/utils/formatPhone';
+import { formatPhone } from '@/utils/format-phone';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';

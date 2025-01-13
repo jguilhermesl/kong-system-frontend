@@ -7,8 +7,4 @@ export const formatCPF = (value: string) => {
     .replace(/\.(\d{3})(\d{1,2})$/, ".$1-$2");
 
   return formattedCPF;
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> origin/main
