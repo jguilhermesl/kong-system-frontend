@@ -11,6 +11,7 @@ interface IFormInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange?: (e: any) => void;
   value?: string;
   iconRight?: ReactNode;
+  error?: string;
 }
 
 export const FormInputField = ({
@@ -21,6 +22,7 @@ export const FormInputField = ({
   className,
   onChange,
   iconRight,
+  error,
   ...props
 }: IFormInputFieldProps) => {
   return (
@@ -39,6 +41,7 @@ export const FormInputField = ({
           {description}
         </Paragraph>
       )}
+      {error && <p className="text-red-500 mt-1 text-sm">{error}</p>}
     </div>
   );
 };

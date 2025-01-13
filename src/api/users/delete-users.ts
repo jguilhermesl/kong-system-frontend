@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "@/services/api";
 
-export interface IDeleteUserProps {
+export interface DeleteUserProps {
   id: string,
 }
 
-export const deleteUser = async ({ id }: IDeleteUserProps) => {
+export const deleteUser = async ({ id }: DeleteUserProps) => {
   try {
     const response = await api.delete("/user/" + id);
     return response.data;

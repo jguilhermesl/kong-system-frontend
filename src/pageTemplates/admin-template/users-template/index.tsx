@@ -12,7 +12,7 @@ export const AdminUsersTemplate = () => {
     <PrivateLayout
       title="Usuários"
       actionsComponent={
-        <Button onClick={() => router.push('/admin/user/add')}>
+        <Button onClick={() => router.push('/admin/users/create')}>
           <Plus className="mr-2 h-4 w-4" />
           Adicionar usuário
         </Button>

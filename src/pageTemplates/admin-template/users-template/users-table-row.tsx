@@ -7,12 +7,15 @@ import ConfirmDialog from '@/utils/confirmDialog';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { Edit, Trash } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface UserTableRowProps {
   item: User;
 }
 
 export const UsersTableRow = ({ item }: UserTableRowProps) => {
+  const router = useRouter();
+
   const { mutateAsync: deleteUserFn, isPending: isDeleting } = useMutation({
     mutationFn: deleteUser,
     onSuccess() {
@@ -35,8 +38,6 @@ export const UsersTableRow = ({ item }: UserTableRowProps) => {
         console.error('Erro ao excluir usuário:', error);
         toast('error', 'Erro ao excluir usuário');
       }
-    } else {
-      toast('error', 'Ação cancelada');
     }
   };
 
@@ -51,8 +52,15 @@ export const UsersTableRow = ({ item }: UserTableRowProps) => {
         </div>
       </TableCell>
       <TableCell className="font-medium">{item.email}</TableCell>
+      <TableCell className="font-medium">{item.createdAt}</TableCell>
       <TableCell>
-        <Button variant="outline" size="sm" onClick={() => {}}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            router.push(`/admin/users/${item.id}`);
+          }}
+        >
           <Edit className="mr-2 h-3 w-3" />
           Editar
         </Button>

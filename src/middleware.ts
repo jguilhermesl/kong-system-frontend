@@ -7,7 +7,6 @@ import { ROUTES_PATH } from './constants/route-path';
 export function middleware(request: NextRequest) {
   const currentUrl = `${request.nextUrl.pathname}${request.nextUrl.search}`;
   const isPublicRoute = PUBLIC_ROUTES.includes(request.nextUrl.pathname);
-  // console.log(currentUrl)
 
   const hasAccessToken = request.cookies.has(TOKENS.ACCESS_TOKEN);
   const role = request.cookies.get(TOKENS.ROLE)?.value;
