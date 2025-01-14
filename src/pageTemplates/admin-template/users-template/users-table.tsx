@@ -1,10 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table } from '@/components/ui/table';
 import { UsersTableRow } from './users-table-row';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUsers } from '@/api/users/fetch-users';
@@ -23,24 +17,21 @@ export const UsersTable = () => {
       {isPending ? (
         <Spinner />
       ) : (
-        <div className="border rounded-md flex items-center w-full">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Identificador</TableHead>
-                <TableHead>Nome</TableHead>
-                <TableHead>Função</TableHead>
-                <TableHead>E-mail</TableHead>
-                <TableHead>Criado em</TableHead>
-                <TableHead></TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {users?.map((item, i) => {
-                return <UsersTableRow key={i} item={item} />;
-              })}
-            </TableBody>
+        <div className="flex items-center w-full flex-1 border rounded-md">
+          <Table
+            headers={[
+              'Identificador',
+              'Nome',
+              'Função',
+              'E-mail',
+              'Criado em',
+              '',
+              '',
+            ]}
+          >
+            {users?.map((item, i) => {
+              return <UsersTableRow key={i} index={i} item={item} />;
+            })}
           </Table>
         </div>
       )}

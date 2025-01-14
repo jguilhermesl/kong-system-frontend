@@ -4,8 +4,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Paragraph } from "./ui/paragraph";
+} from '@/components/ui/select';
+import { Paragraph } from './ui/paragraph';
+import clsx from 'clsx';
 
 interface IFormSelectFieldProps {
   label?: string;
@@ -18,6 +19,7 @@ interface IFormSelectFieldProps {
     value: string;
     label: string;
   }[];
+  containerClassName?: string;
 }
 
 export const FormSelectField = ({
@@ -28,12 +30,13 @@ export const FormSelectField = ({
   value,
   choices,
   className,
+  containerClassName,
 }: IFormSelectFieldProps) => {
   return (
     <div className={className}>
       {label && <Paragraph className="font-medium">{label}</Paragraph>}
       <Select onValueChange={onChange} defaultValue={value}>
-        <SelectTrigger className="my-2">
+        <SelectTrigger className={clsx('my-2', containerClassName)}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
