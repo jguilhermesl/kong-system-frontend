@@ -28,9 +28,10 @@ export const UsersTable = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Identificador</TableHead>
-                <TableHead>Nome da categoria</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Preço</TableHead>
+                <TableHead>Nome</TableHead>
+                <TableHead>Função</TableHead>
+                <TableHead>E-mail</TableHead>
+                <TableHead>Criado em</TableHead>
                 <TableHead></TableHead>
                 <TableHead></TableHead>
               </TableRow>
