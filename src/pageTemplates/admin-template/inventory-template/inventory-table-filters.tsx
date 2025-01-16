@@ -23,6 +23,8 @@ export function InventoryTableFilters() {
     },
     onReset: () => {
       window.history.pushState({}, '', window.location.pathname);
+      formik.setFieldValue('sold', '');
+      console.log(formik.values);
     },
   });
 
@@ -41,7 +43,6 @@ export function InventoryTableFilters() {
         onChange={formik.handleChange}
       />
       <div className="flex items-center gap-2">
-        <span className="text-sm font-semibold">Foi vendido:</span>
         <FormSelectField
           containerClassName="h-8"
           value={formik.values.sold}
@@ -50,6 +51,7 @@ export function InventoryTableFilters() {
             { value: 'true', label: 'Sim' },
             { value: 'false', label: 'Não' },
           ]}
+          className="w-[150px]"
           placeholder="Foi vendido"
         />
       </div>
