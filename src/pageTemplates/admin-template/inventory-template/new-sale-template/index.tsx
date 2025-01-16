@@ -9,7 +9,7 @@ import { toast } from '@/utils/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { newSale } from '@/api/inventory/new-sale';
+import { newSale, NewSaleProps } from '@/api/inventory/new-sale';
 import { newSaleSchema } from '@/schemas/new-sale-schema';
 import { FormAutoCompleteField } from '@/components/form-auto-complete-field';
 import { useCallback, useState } from 'react';
@@ -18,6 +18,8 @@ import { InventoryItem } from '@/models/Inventory';
 import { User } from '@/models/User';
 import { FormSelectField } from '@/components/form-select-field';
 import { convertQuantityToReal } from '@/utils/convert-quantity-to-real';
+import { convertRealToNumber } from '@/utils/convert-real-to-number';
+import { fetchClients } from '@/api/clients/fetch-clients';
 
 export const NewSaleTemplate = () => {
   const [inventoryAutoCompleteValue, setInventoryAutoCompleteValue] =
@@ -43,6 +45,11 @@ export const NewSaleTemplate = () => {
     queryKey: ['inventory'],
   });
 
+  const { data: clientsData } = useQuery({
+    queryFn: fetchClients,
+    queryKey: ['clients'],
+  });
+
   const handleGetInventoryItems = useCallback(
     async (searchValue: string) => {
       const inventory = inventoryData?.data;
@@ -64,25 +71,39 @@ export const NewSaleTemplate = () => {
     [inventoryData]
   );
 
-  const handleGetClientItems = useCallback(async (searchValue: string) => {
-    const clients = [{ name: 'Pedro' }, { name: 'José' }];
-    const lowercaseQuery = searchValue.toLowerCase();
+  const handleGetClientItems = useCallback(
+    async (searchValue: string) => {
+      const clients = clientsData?.data || [];
+      const lowercaseQuery = searchValue.toLowerCase();
 
-    const clientsFiltered =
-      clients?.filter((i) => {
-        const lowercaseName = i.name.toLowerCase();
+      const clientsFiltered =
+        clients?.filter((i) => {
+          const lowercaseName = i.name.toLowerCase();
 
-        return lowercaseName.includes(lowercaseQuery);
-      }) || [];
+          return lowercaseName.includes(lowercaseQuery);
+        }) || [];
 
-    setClientsSuggestions(clientsFiltered as User[]);
-  }, []);
+      setClientsSuggestions(clientsFiltered as User[]);
+    },
+    [clientsData?.data]
+  );
 
   const handleNewSale = async (values: {
     sellerName: string;
     price: string;
+    inventoryId: string;
+    clientId: string;
+    codeIndication?: string;
   }) => {
-    const body = {};
+    const saleValue = convertRealToNumber(values.price) || 0;
+
+    const body: NewSaleProps = {
+      sellerName: values.sellerName,
+      saleValue,
+      inventoryId: values.inventoryId,
+      clientId: values.clientId,
+      codeIndication: values.codeIndication,
+    };
 
     try {
       await newSaleFn(body);
@@ -110,7 +131,7 @@ export const NewSaleTemplate = () => {
       sellerName: '',
       inventoryId: '',
       clientId: '',
-      indicationCode: '',
+      codeIndication: '',
     },
     validationSchema: newSaleSchema,
     onSubmit: handleNewSale,
@@ -168,12 +189,12 @@ export const NewSaleTemplate = () => {
             ]}
           />
           <FormInputField
-            {...getFieldProps('indicationCode')}
-            onChange={(e) => setFieldValue('indicationCode', e.target.value)}
+            {...getFieldProps('codeIndication')}
+            onChange={(e) => setFieldValue('codeIndication', e.target.value)}
             label="Código de Indicação (opcional)"
             placeholder="Digite o código de indicação"
             className="w-full"
-            error={errors.indicationCode}
+            error={errors.codeIndication}
           />
 
           <Button

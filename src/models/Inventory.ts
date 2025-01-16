@@ -15,7 +15,7 @@ export interface InventoryItem {
   gameValue: number,
   purchaseValue: number,
   accountValue: number,
-  sold: boolean,
+  sold: "TRUE" | "FALSE",
   client?: User,
   soldBy?: string
 }

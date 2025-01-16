@@ -1,4 +1,4 @@
-import { Home, Users, Wallet } from 'lucide-react';
+import { Home, Users, Wallet, UserPen } from 'lucide-react';
 
 export const CLIENT_SIDEBAR_ITEMS = [
   {
@@ -23,6 +23,13 @@ export const ADMIN_SIDEBAR_ITEMS = [
     href: '/admin/users',
     icon: (active: boolean) => (
       <Users size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Clientes',
+    href: '/admin/clients',
+    icon: (active: boolean) => (
+      <UserPen size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
   {

@@ -5,5 +5,6 @@ export interface User {
   createdAt: string,
   role: "admin" | "client",
   cpf: string,
-  phone: string
+  phone: string,
+  console: string
 }
