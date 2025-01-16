@@ -35,9 +35,12 @@ export const FormSelectField = ({
   return (
     <div className={className}>
       {label && <Paragraph className="font-medium">{label}</Paragraph>}
-      <Select onValueChange={onChange} defaultValue={value}>
-        <SelectTrigger className={clsx('my-2', containerClassName)}>
-          <SelectValue placeholder={placeholder} />
+      <Select onValueChange={onChange} defaultValue={value} value={value}>
+        <SelectTrigger
+          className={clsx('my-2', containerClassName)}
+          value={value}
+        >
+          <SelectValue placeholder={placeholder} defaultValue={value} />
         </SelectTrigger>
         <SelectContent>
           {choices.map((choice) => {

@@ -23,7 +23,7 @@ export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
           </span>
         </div>
       </Table.Col>
-      <Table.Col className="font-medium">R$ {item.accountValue}</Table.Col>
+      <Table.Col className="font-medium">{item.accountValue}</Table.Col>
       <Table.Col className="font-medium">{item.gameVersion}</Table.Col>
       <Table.Col className="font-medium">{item.sold}</Table.Col>
       <Table.Col className="font-medium">{item.email}</Table.Col>
