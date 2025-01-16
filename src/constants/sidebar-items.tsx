@@ -39,4 +39,11 @@ export const ADMIN_SIDEBAR_ITEMS = [
       <Wallet size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
+  {
+    title: 'Indicações',
+    href: '/admin/indications',
+    icon: (active: boolean) => (
+      <Wallet size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
 ];

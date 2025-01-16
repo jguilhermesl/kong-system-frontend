@@ -79,8 +79,16 @@ export const NewSaleTemplate = () => {
       const clientsFiltered =
         clients?.filter((i) => {
           const lowercaseName = i.name.toLowerCase();
+          const lowercaseCpf = i.cpf?.toLowerCase();
+          const lowercaseEmail = i.email?.toLowerCase();
+          const lowercasePhone = i.phone?.toLowerCase();
 
-          return lowercaseName.includes(lowercaseQuery);
+          return (
+            lowercaseName.includes(lowercaseQuery) ||
+            lowercaseCpf.includes(lowercaseQuery) ||
+            lowercaseEmail.includes(lowercaseQuery) ||
+            lowercasePhone.includes(lowercaseQuery)
+          );
         }) || [];
 
       setClientsSuggestions(clientsFiltered as User[]);
@@ -175,7 +183,8 @@ export const NewSaleTemplate = () => {
             setItem={(item) => setFieldValue('clientId', item)}
             suggestions={clientsSuggestions}
             label="Cliente"
-            renderKeys={['name']}
+            placeholder="Digite o nome, cpf ou e-mail do cliente"
+            renderKeys={['name', 'email']}
           />
           <FormSelectField
             {...getFieldProps('sellerName')}
