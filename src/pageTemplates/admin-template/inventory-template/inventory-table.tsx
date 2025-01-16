@@ -21,7 +21,6 @@ export const InventoryTable = () => {
         <div className="border rounded-md w-full">
           <Table
             headers={[
-              'Identificador',
               'Nome Jogo',
               'Tipo de Conta',
               'Preço',

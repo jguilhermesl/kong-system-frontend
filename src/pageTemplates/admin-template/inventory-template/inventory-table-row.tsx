@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Table } from '@/components/ui/table';
 import { InventoryItem } from '@/models/Inventory';
 import { isEven } from '@/utils/is-even';
-import { Edit, Trash } from 'lucide-react';
+import { CheckCircle, Edit, Trash, XCircle } from 'lucide-react';
 
 interface InventoryTableRowProps {
   item: InventoryItem;
@@ -11,7 +11,6 @@ interface InventoryTableRowProps {
 export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
   return (
     <Table.Row isEven={isEven(index + 1)}>
-      <Table.Col className="font-mono">{item.id}</Table.Col>
       <Table.Col className="font-medium max-w-[250px] truncate">
         {item.game}
       </Table.Col>
@@ -25,7 +24,13 @@ export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
       </Table.Col>
       <Table.Col className="font-medium">R$ {item.accountValue}</Table.Col>
       <Table.Col className="font-medium">{item.gameVersion}</Table.Col>
-      <Table.Col className="font-medium">{item.sold}</Table.Col>
+      <Table.Col className="font-medium">
+        {item.sold === 'TRUE' ? (
+          <CheckCircle size={20} color="#0FFF50" />
+        ) : (
+          <XCircle size={20} color="#FF0000" />
+        )}
+      </Table.Col>
       <Table.Col className="font-medium">{item.email}</Table.Col>
       <Table.Col>
         <Button variant="outline" size="sm" onClick={() => {}}>
