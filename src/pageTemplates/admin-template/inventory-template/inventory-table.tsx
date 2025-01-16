@@ -4,11 +4,21 @@ import { InventoryTableRow } from './inventory-table-row';
 import { useQuery } from '@tanstack/react-query';
 import { fetchInventory } from '@/api/inventory/fetch-inventory';
 import { Table } from '@/components/ui/table';
+import { useSearchParams } from 'next/navigation';
 
 export const InventoryTable = () => {
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search') || '';
+  const sold =
+    searchParams.get('sold') === 'true'
+      ? 'true'
+      : searchParams.get('sold') === 'false'
+      ? 'false'
+      : undefined;
+
   const { data: inventoryData, isPending } = useQuery({
-    queryFn: fetchInventory,
-    queryKey: ['inventory'],
+    queryFn: () => fetchInventory({ search, sold }),
+    queryKey: ['inventory', search, sold],
   });
 
   const inventory = inventoryData?.data || [];
