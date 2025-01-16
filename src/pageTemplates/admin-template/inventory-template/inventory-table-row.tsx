@@ -12,7 +12,9 @@ export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
   return (
     <Table.Row isEven={isEven(index + 1)}>
       <Table.Col className="font-mono">{item.id}</Table.Col>
-      <Table.Col className="font-medium">{item.game}</Table.Col>
+      <Table.Col className="font-medium max-w-[250px] truncate">
+        {item.game}
+      </Table.Col>
       <Table.Col>
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-slate-400" />

@@ -7,9 +7,19 @@ export interface FetchInventoryResponse extends ApiResponse {
   data: InventoryItem[]
 }
 
-export const fetchInventory = async () => {
+interface FetchInventoryProps {
+  search?: string,
+  sold?: "true" | "false"
+}
+
+export const fetchInventory = async ({ search, sold }: FetchInventoryProps) => {
   try {
-    const response = await api.get("/inventory");
+    const response = await api.get("/inventory", {
+      params: {
+        search,
+        sold
+      }
+    });
     return response.data as FetchInventoryResponse;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || error?.message);
