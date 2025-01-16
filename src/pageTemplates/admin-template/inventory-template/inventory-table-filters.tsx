@@ -24,7 +24,6 @@ export function InventoryTableFilters() {
     onReset: () => {
       window.history.pushState({}, '', window.location.pathname);
       formik.setFieldValue('sold', '');
-      console.log(formik.values);
     },
   });
 
