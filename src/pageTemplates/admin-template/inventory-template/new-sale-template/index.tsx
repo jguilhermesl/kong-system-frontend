@@ -117,12 +117,12 @@ export const NewSaleTemplate = () => {
       await newSaleFn(body);
       toast('success', 'Venda adicionada com sucesso!');
       queryClient.invalidateQueries({
-        queryKey: ['users'],
+        queryKey: ['inventory'],
       });
       resetForm();
-      router.push('/admin/users');
+      router.push('/admin/inventory');
     } catch (error: any) {
-      toast('error', error?.message || 'Erro ao criar o usuário.');
+      toast('error', error?.message || 'Erro ao adicionar venda.');
     }
   };
 

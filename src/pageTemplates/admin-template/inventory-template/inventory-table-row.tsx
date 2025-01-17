@@ -11,6 +11,9 @@ interface InventoryTableRowProps {
 export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
   return (
     <Table.Row isEven={isEven(index + 1)}>
+      <Table.Col className="font-medium max-w-[100px] truncate">
+        {item.id}
+      </Table.Col>
       <Table.Col className="font-medium max-w-[250px] truncate">
         {item.game}
       </Table.Col>
