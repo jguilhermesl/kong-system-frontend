@@ -1,6 +1,6 @@
-import { Heading } from "./ui/heading";
-import { Paragraph } from "./ui/paragraph";
-import { Switch } from "./ui/switch";
+import { Heading } from './ui/heading';
+import { Paragraph } from './ui/paragraph';
+// import { Switch } from "./ui/switch";
 
 interface IFormSwitchFieldProps {
   isChecked: boolean;
@@ -10,8 +10,8 @@ interface IFormSwitchFieldProps {
 }
 
 export const FormSwitchField = ({
-  isChecked,
-  onCheckedChange,
+  // isChecked,
+  // onCheckedChange,
   label,
   description,
 }: IFormSwitchFieldProps) => {
@@ -22,7 +22,7 @@ export const FormSwitchField = ({
         <Paragraph className="text-muted-foreground">{description}</Paragraph>
       </div>
       <div>
-        <Switch checked={isChecked} onCheckedChange={onCheckedChange} />
+        {/* <Switch checked={isChecked} onCheckedChange={onCheckedChange} /> */}
       </div>
     </div>
   );

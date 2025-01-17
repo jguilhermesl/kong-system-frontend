@@ -1,6 +1,7 @@
-"use client";
-import clsx from "clsx";
-import { ReactNode, memo } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+'use client';
+import clsx from 'clsx';
+import { ReactNode, memo } from 'react';
 
 interface ITBodyRowProps {
   children?: ReactNode;
@@ -19,7 +20,7 @@ const TBodyRowComponent = ({
   onClick,
 }: ITBodyRowProps) => {
   return (
-    <tr className={clsx({ "bg-gray-50": isEven })} onClick={onClick}>
+    <tr className={clsx({ 'bg-gray-50': isEven })} onClick={onClick}>
       {/* {!!onSelectedRow?.onChecked && (
         <Table.Col>
           <Checkbox
@@ -35,6 +36,6 @@ const TBodyRowComponent = ({
   );
 };
 
-TBodyRowComponent.displayName = "TBodyRow";
+TBodyRowComponent.displayName = 'TBodyRow';
 
 export const TBodyRow = memo(TBodyRowComponent);

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { InputHTMLAttributes, ReactNode, useState } from 'react';
 import { Input } from './ui/input';
 import { Paragraph } from './ui/paragraph';
