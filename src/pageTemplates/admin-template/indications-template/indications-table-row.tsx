@@ -53,7 +53,7 @@ export const IndicationsTableRow = ({
         {item.inventory?.accountValue}
       </Table.Col>
       <Table.Col className="font-medium">{item.user?.code}</Table.Col>
-      <Table.Col className="font-medium">{item.cashback}</Table.Col>
+      <Table.Col className="font-medium">{item.points} pontos</Table.Col>
       <Table.Col className="font-medium">
         {formatDateAndHour(item.createdAt) || '-'}
       </Table.Col>

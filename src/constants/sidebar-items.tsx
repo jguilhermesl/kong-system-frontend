@@ -8,6 +8,13 @@ export const CLIENT_SIDEBAR_ITEMS = [
       <Home size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
+  {
+    title: 'Indicações',
+    href: '/indications',
+    icon: (active: boolean) => (
+      <Award size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
 ];
 
 export const ADMIN_SIDEBAR_ITEMS = [

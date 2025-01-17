@@ -6,6 +6,7 @@ import React, { createContext, useContext, ReactNode } from 'react';
 interface UserContextType {
   user?: User;
   isAdmin: boolean;
+  isLoading: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -15,7 +16,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const { data: userProfile } = useQuery({
+  const { data: userProfile, isPending } = useQuery({
     queryKey: ['user-profile'],
     queryFn: () => meProfile(),
   });
@@ -23,7 +24,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const isAdmin = userProfile?.data?.role === 'admin';
 
   return (
-    <UserContext.Provider value={{ user: userProfile?.data, isAdmin }}>
+    <UserContext.Provider
+      value={{ user: userProfile?.data, isAdmin, isLoading: isPending }}
+    >
       {children}
     </UserContext.Provider>
   );

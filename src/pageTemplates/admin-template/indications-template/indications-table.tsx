@@ -25,7 +25,7 @@ export const IndicationsTable = () => {
               'Jogo',
               'Valor da compra',
               'Código',
-              'Cashback',
+              'Pontos acumulados',
               'Criado em',
               '',
             ]}

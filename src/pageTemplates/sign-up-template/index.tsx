@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
+import { createUser } from '@/api/users/create-user';
 import { Heading } from '@/components/ui/heading';
 import { signUpSchema } from '@/schemas/sign-up-schema';
 import { FormInputField } from '@/components/form-input-field';
@@ -11,18 +12,28 @@ import { FormPasswordField } from '@/components/form-password-field';
 import { formatPhone } from '@/utils/format-phone';
 import { formatCPF } from '@/utils/formatCPF';
 import { FileUser, IdCard, Mail, Phone } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { FormSelectField } from '@/components/form-select-field';
+import { useRouter } from 'next/navigation';
 
 export const SignUpTemplate = () => {
-  const handleSignUp = async (values: {
-    name: string;
-    email: string;
-    cpf: string;
-    phone: string;
-    password: string;
-  }) => {
-    toast('success', 'Cadastro realizado com sucesso!');
-    console.log(values);
-    resetForm();
+  const router = useRouter();
+
+  const { mutateAsync: createUserFn, isPending } = useMutation({
+    mutationFn: createUser,
+  });
+
+  const handleSignUp = async () => {
+    await createUserFn({
+      name: values.name,
+      email: values.email,
+      cpf: values.cpf,
+      phone: values.phone,
+      password: values.password,
+      console: values.console,
+    });
+    toast('success', 'Conta criada com sucesso!');
+    router.push('/');
   };
 
   const {
@@ -31,7 +42,7 @@ export const SignUpTemplate = () => {
     setFieldValue,
     errors,
     isSubmitting,
-    resetForm,
+    values,
   } = useFormik({
     initialValues: {
       name: '',
@@ -40,6 +51,7 @@ export const SignUpTemplate = () => {
       phone: '',
       password: '',
       confirmedPassword: '',
+      console: '' as 'PS4' | 'PS5',
     },
     validationSchema: signUpSchema,
     onSubmit: handleSignUp,
@@ -48,10 +60,10 @@ export const SignUpTemplate = () => {
 
   return (
     <div className="h-auto w-full flex flex-col  md:flex-row">
-      <div className="w-full md:w-[50%] bg-primary md:h-screen p-9 flex flex-col ">
+      <div className="w-full md:w-[50%] bg-primary md:h-screen p-9 flex flex-col fixed top-0 ">
         <Heading className="!text-white text-2xl">Kong Games</Heading>
       </div>
-      <div className="w-full md:w-[50%] sm:py-8 py-5 flex flex-col overflow-y-auto items-center justify-center px-7 md:px-20 relative">
+      <div className="w-full md:w-[50%] sm:py-8 py-5 flex flex-col overflow-y-auto items-center justify-center px-7 md:px-20 relative md:ml-[50%]">
         <h1 className="text-3xl font-semibold text-black mb-2">
           Fazer Cadastro
         </h1>
@@ -104,6 +116,18 @@ export const SignUpTemplate = () => {
             error={errors.phone}
           />
 
+          <FormSelectField
+            {...getFieldProps('console')}
+            onChange={(value: string) => setFieldValue('console', value)}
+            label="Console"
+            placeholder="Escolha o seu console"
+            className="w-full"
+            choices={[
+              { value: 'PS4', label: 'PS4' },
+              { value: 'PS5', label: 'PS5' },
+            ]}
+          />
+
           <FormPasswordField
             {...getFieldProps('password')}
             onChange={(e) => setFieldValue('password', e.target.value)}
@@ -125,7 +149,7 @@ export const SignUpTemplate = () => {
             type="submit"
             className="!rounded-md !font-poppins !font-medium mt-4"
           >
-            {isSubmitting ? (
+            {isSubmitting || isPending ? (
               <Spinner className="border-l-white border-t-white" />
             ) : (
               'Cadastrar'
