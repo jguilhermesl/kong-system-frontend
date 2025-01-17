@@ -12,7 +12,7 @@ export const ClientHomeTemplate = () => {
   return (
     <PrivateLayout>
       <div>
-        <main className="container mx-auto">
+        <main className="mx-auto">
           <section className="bg-white  mb-8">
             <h1 className="text-xl font-semibold mb-2">
               Bem-vindo ao Portal do Cliente da Kong Games! 🎉
