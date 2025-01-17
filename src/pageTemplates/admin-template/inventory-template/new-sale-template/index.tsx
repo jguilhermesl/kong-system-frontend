@@ -20,6 +20,7 @@ import { FormSelectField } from '@/components/form-select-field';
 import { convertQuantityToReal } from '@/utils/convert-quantity-to-real';
 import { convertRealToNumber } from '@/utils/convert-real-to-number';
 import { fetchClients } from '@/api/clients/fetch-clients';
+import { SELLER_OPTIONS } from '@/constants/seller-options';
 
 export const NewSaleTemplate = () => {
   const [inventoryAutoCompleteValue, setInventoryAutoCompleteValue] =
@@ -110,7 +111,7 @@ export const NewSaleTemplate = () => {
       saleValue,
       inventoryId: values.inventoryId,
       clientId: values.clientId,
-      codeIndication: values.codeIndication,
+      indicationCode: values.codeIndication,
     };
 
     try {
@@ -192,10 +193,7 @@ export const NewSaleTemplate = () => {
             label="Vendedor"
             placeholder="Selecione o vendedor"
             className="w-full"
-            choices={[
-              { value: 'Eduarda', label: 'Eduarda' },
-              { value: 'Jamily', label: 'Jamily' },
-            ]}
+            choices={SELLER_OPTIONS}
           />
           <FormInputField
             {...getFieldProps('codeIndication')}

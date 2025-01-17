@@ -1,4 +1,4 @@
-import { Home, Users, Wallet, UserPen } from 'lucide-react';
+import { Home, Users, Award, Briefcase, BookUser } from 'lucide-react';
 
 export const CLIENT_SIDEBAR_ITEMS = [
   {
@@ -29,21 +29,21 @@ export const ADMIN_SIDEBAR_ITEMS = [
     title: 'Clientes',
     href: '/admin/clients',
     icon: (active: boolean) => (
-      <UserPen size={24} color={active ? '#F96B04' : '#FFF'} />
+      <BookUser size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
   {
     title: 'Estoque',
     href: '/admin/inventory',
     icon: (active: boolean) => (
-      <Wallet size={24} color={active ? '#F96B04' : '#FFF'} />
+      <Briefcase size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
   {
     title: 'Indicações',
     href: '/admin/indications',
     icon: (active: boolean) => (
-      <Wallet size={24} color={active ? '#F96B04' : '#FFF'} />
+      <Award size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
 ];

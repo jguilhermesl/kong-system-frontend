@@ -19,7 +19,17 @@ export const IndicationsTable = () => {
         <Spinner />
       ) : (
         <div className="flex items-center w-full flex-1 border rounded-md">
-          <Table headers={['Cliente', 'Jogo', 'Código', 'Criado em', '', '']}>
+          <Table
+            headers={[
+              'Cliente',
+              'Jogo',
+              'Valor da compra',
+              'Código',
+              'Cashback',
+              'Criado em',
+              '',
+            ]}
+          >
             {indications?.map((item: Indication, i: number) => {
               return <IndicationsTableRow key={i} index={i} item={item} />;
             })}

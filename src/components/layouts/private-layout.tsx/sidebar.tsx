@@ -30,7 +30,7 @@ export const Sidebar = () => {
               <Link
                 href={item.href}
                 className={clsx(
-                  'w-full flex justify-start items-center gap-2 mt-8',
+                  'w-full flex justify-start items-center gap-2 mt-8 px-3',
                   {
                     'bg-[#FFFFFF] px-3 py-2 rounded-lg': isActive,
                   }

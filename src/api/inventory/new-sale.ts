@@ -5,15 +5,15 @@ export interface NewSaleProps {
   clientId: string,
   saleValue: number,
   sellerName: string,
-  codeIndication?: string
+  indicationCode?: string
 }
 
-export async function newSale({ clientId, saleValue, sellerName, codeIndication, inventoryId }: NewSaleProps) {
+export async function newSale({ clientId, saleValue, sellerName, indicationCode, inventoryId }: NewSaleProps) {
   const response = await api.patch(`/inventory/${inventoryId}`, {
     clientId,
     saleValue,
     sellerName,
-    codeIndication,
+    indicationCode,
   });
   return response.data;
 }

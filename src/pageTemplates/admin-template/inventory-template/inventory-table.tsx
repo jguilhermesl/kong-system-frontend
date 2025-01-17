@@ -43,7 +43,7 @@ export const InventoryTable = () => {
             ]}
           >
             {inventory?.map((item, i) => (
-              <InventoryTableRow key={i} index={i} item={item} />
+              <InventoryTableRow key={item.id} index={i} item={item} />
             ))}
           </Table>
         </div>

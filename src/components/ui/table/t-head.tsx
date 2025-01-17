@@ -22,8 +22,8 @@ export const THead = ({
           className
         )}
       >
-        {headers?.map((header) => (
-          <th key={header} className="p-2 font-semibold table-cell truncate">
+        {headers?.map((header, i) => (
+          <th key={i} className="p-2 font-semibold table-cell truncate">
             <span className="flex items-center justify-between flex-1">
               <Paragraph className="flex flex-1 w-full !text-neutral-900">
                 {header}
