@@ -15,6 +15,13 @@ export const CLIENT_SIDEBAR_ITEMS = [
       <Award size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
+  {
+    title: 'Extrato',
+    href: '/statement',
+    icon: (active: boolean) => (
+      <Award size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
 ];
 
 export const ADMIN_SIDEBAR_ITEMS = [

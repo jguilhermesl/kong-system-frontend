@@ -10,3 +10,14 @@ export interface Indication {
   createdAt: string,
   points: string
 }
+
+export interface StatementItem {
+  id: string,
+  userId: string,
+  user?: User,
+  inventoryId?: string,
+  inventory?: InventoryItem,
+  createdAt: string,
+  points: string,
+  type: "purchase" | "indication"
+}
