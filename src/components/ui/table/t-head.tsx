@@ -24,10 +24,8 @@ export const THead = ({
       >
         {headers?.map((header, i) => (
           <th key={i} className="p-2 font-semibold table-cell truncate">
-            <span className="flex items-center justify-between flex-1">
-              <Paragraph className="flex flex-1 w-full !text-neutral-900">
-                {header}
-              </Paragraph>
+            <span className="flex items-center justify-between">
+              <Paragraph className="flex !text-neutral-900">{header}</Paragraph>
 
               {showColumnSortButton?.includes(header) && onSortItems && (
                 <button>sort</button>

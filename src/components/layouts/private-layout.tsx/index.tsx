@@ -24,16 +24,16 @@ export const PrivateLayout = ({
       </div>
       <div className="flex-col bg-background flex-1 w-[70%] lg:w-[80%] md:ml-[30%] lg:ml-[20%]">
         <Header />
-        <div className="py-12 md:py-8 px-6 justify-between items-center flex">
+        <div className="py-12 md:py-8 px-6 justify-between  md:mt-0 mt-12 items-center flex">
           {(title || description) && (
-            <div className="flex md:mt-0 mt-12 flex-col">
+            <div className="flex flex-col">
               <Heading className="text-xl md:flex">{title}</Heading>
               <Paragraph className="text-sm md:flex">{description}</Paragraph>
             </div>
           )}
           {actionsComponent}
         </div>
-        <div className="px-6 pb-6">{children}</div>
+        <div className="!mx-6 pb-6">{children}</div>
       </div>
     </div>
   );

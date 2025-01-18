@@ -28,7 +28,7 @@ export const Table = ({
   const customHeaders = isSelectable ? ['', ...headers] : headers;
 
   return (
-    <div className="flex m-auto relative flex-1 rounded-lg">
+    <div className="flex m-auto relative w-full rounded-lg">
       <div
         style={{
           maxHeight: height - 150,

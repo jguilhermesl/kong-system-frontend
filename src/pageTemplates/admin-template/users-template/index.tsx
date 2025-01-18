@@ -18,7 +18,7 @@ export const AdminUsersTemplate = () => {
         </Button>
       }
     >
-      <div>
+      <div className="w-full">
         <UsersTable />
       </div>
     </PrivateLayout>

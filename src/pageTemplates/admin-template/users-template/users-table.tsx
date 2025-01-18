@@ -17,7 +17,7 @@ export const UsersTable = () => {
       {isPending ? (
         <Spinner />
       ) : (
-        <div className="flex items-center w-full flex-1 border rounded-md">
+        <div className="flex items-center w-full border rounded-md">
           <Table
             headers={[
               'Identificador',

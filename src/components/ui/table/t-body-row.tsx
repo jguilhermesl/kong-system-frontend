@@ -20,7 +20,12 @@ const TBodyRowComponent = ({
   onClick,
 }: ITBodyRowProps) => {
   return (
-    <tr className={clsx({ 'bg-gray-50': isEven })} onClick={onClick}>
+    <tr
+      className={clsx('w-full', {
+        'bg-gray-50 w-full': isEven,
+      })}
+      onClick={onClick}
+    >
       {/* {!!onSelectedRow?.onChecked && (
         <Table.Col>
           <Checkbox

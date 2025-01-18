@@ -29,7 +29,7 @@ export function InventoryTableFilters() {
 
   return (
     <form
-      className="flex items-center gap-2"
+      className="flex items-center gap-2 flex-wrap"
       onSubmit={formik.handleSubmit}
       onReset={formik.handleReset}
     >
