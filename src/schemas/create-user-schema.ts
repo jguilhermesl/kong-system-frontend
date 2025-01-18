@@ -12,7 +12,7 @@ export const createUserSchema = Yup.object().shape({
     )
     .required('Telefone é obrigatório'),
   password: Yup.string()
-    .min(6, 'Senha deve ter pelo menos 6 caracteres').max(8, 'Senha não pode ter mais que 8 caracteres').optional(),
+    .min(6, 'Senha deve ter pelo menos 6 caracteres').optional(),
   role: Yup.string().optional()
 
 });
