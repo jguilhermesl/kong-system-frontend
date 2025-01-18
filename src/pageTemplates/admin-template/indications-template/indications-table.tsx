@@ -7,7 +7,7 @@ import { Indication } from '@/models/Indication';
 
 export const IndicationsTable = () => {
   const { data: indicationsData, isPending } = useQuery({
-    queryFn: fetchIndications,
+    queryFn: () => fetchIndications({}),
     queryKey: ['indications'],
   });
 
