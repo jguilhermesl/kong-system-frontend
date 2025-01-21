@@ -24,16 +24,27 @@ export const SignUpTemplate = () => {
   });
 
   const handleSignUp = async () => {
-    await createUserFn({
-      name: values.name,
-      email: values.email,
-      cpf: values.cpf,
-      phone: values.phone,
-      password: values.password,
-      console: values.console,
-    });
-    toast('success', 'Conta criada com sucesso!');
-    router.push('/');
+    try {
+      await createUserFn({
+        name: values.name,
+        email: values.email,
+        cpf: values.cpf,
+        phone: values.phone,
+        password: values.password,
+        console: values.console,
+      });
+      toast('success', 'Conta criada com sucesso!');
+      router.push('/');
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      if (error?.response?.data?.message === 'Usuário já existe.') {
+        toast('error', 'Usuário já existe. Tente outro email');
+        return;
+      } else {
+        toast('error', 'Erro ao criar a conta. Tente novamente!');
+      }
+      console.error(error);
+    }
   };
 
   const {
@@ -63,7 +74,7 @@ export const SignUpTemplate = () => {
       <div className="w-full md:w-[50%] bg-primary md:h-screen p-9 flex flex-col fixed top-0 ">
         <Heading className="!text-white text-2xl">Kong Games</Heading>
       </div>
-      <div className="w-full md:w-[50%] sm:py-8 py-5 flex flex-col overflow-y-auto items-center justify-center px-7 md:px-20 relative md:ml-[50%]">
+      <div className="w-full md:w-[50%] sm:py-8 md:mt-2 mt-24 py-5 flex flex-col overflow-y-auto items-center justify-center px-7 md:px-20 relative md:ml-[50%]">
         <h1 className="text-3xl font-semibold text-black mb-2">
           Fazer Cadastro
         </h1>

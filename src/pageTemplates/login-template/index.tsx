@@ -17,25 +17,31 @@ export const LoginTemplate = () => {
       email: values.email,
       password: values.password,
     });
-    toast('success', 'Seja bem vindo!');
+    toast('success', 'Seja bem-vindo!');
   };
 
-  const { handleSubmit, setFieldValue, getFieldProps, isSubmitting } =
-    useFormik({
-      initialValues: {
-        email: '',
-        password: '',
-      },
-      validationSchema: loginSchema,
-      onSubmit: handleLogin,
-    });
+  const {
+    handleSubmit,
+    setFieldValue,
+    getFieldProps,
+    errors,
+
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: loginSchema,
+    onSubmit: handleLogin,
+  });
 
   return (
     <div className="h-[100vh] w-full flex flex-col md:flex-row">
       <div className="w-full md:w-[50%] bg-primary p-9 flex flex-col ">
         <Heading className="!text-white text-2xl">Kong Games</Heading>
       </div>
-      <div className="w-full md:w-[50%] flex flex-col items-center justify-center px-7 md:px-20 relative">
+      <div className="w-full md:w-[50%] flex flex-col items-center md:mt-2 mt-5 justify-center px-7 md:px-20 relative">
         <h1 className="text-3xl font-semibold text-black mb-2">Fazer Login</h1>
         <p className="text-sm text-default-grey !font-poppins">
           Insira seu e-mail e senha abaixo para fazer login
@@ -50,6 +56,7 @@ export const LoginTemplate = () => {
             label="E-mail"
             placeholder="Digite seu e-mail"
             className="w-full"
+            error={errors.email}
           />
           <FormPasswordField
             {...getFieldProps('password')}
@@ -57,6 +64,7 @@ export const LoginTemplate = () => {
             label="Senha"
             placeholder="Digite sua senha"
             className="w-full"
+            error={errors.password}
           />
 
           <Button
