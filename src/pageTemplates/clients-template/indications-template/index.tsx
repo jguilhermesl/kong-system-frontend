@@ -1,9 +1,11 @@
 'use client';
+
 import { fetchIndications } from '@/api/indications/fetch-indications';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Heading } from '@/components/ui/heading';
 import { Paragraph } from '@/components/ui/paragraph';
 import { Spinner } from '@/components/ui/spinner';
+import { EmptyState } from '@/components/ui/empty-state';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDateAndHour } from '@/utils/format-date-and-hour';
 import { useQuery } from '@tanstack/react-query';
@@ -26,13 +28,13 @@ export const ClientIndicationsTemplate = () => {
         <div className="flex items-center justify-center">
           <Spinner />
         </div>
-      ) : (
+      ) : indications.length > 0 ? (
         <div className="flex flex-col gap-4">
           {indications.map((indication) => {
             return (
               <section
                 key={indication.id}
-                className="border border-border rounded-lg p-8 flex flex-col gap-8 "
+                className="border border-border rounded-lg p-8 flex flex-col gap-8"
               >
                 <div className="flex items-center gap-8">
                   <div className="bg-green-100 p-4 rounded-lg flex items-center justify-center">
@@ -53,6 +55,11 @@ export const ClientIndicationsTemplate = () => {
             );
           })}
         </div>
+      ) : (
+        <EmptyState
+          title="indicações"
+          description="Compartilhe a diversão da KongGames e ganhe pontos por cada amigo indicado!"
+        />
       )}
     </PrivateLayout>
   );
