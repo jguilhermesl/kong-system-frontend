@@ -9,6 +9,7 @@ interface IPrivateLayoutProps {
   title?: string;
   description?: string;
   actionsComponent?: ReactNode;
+  className?: string;
 }
 
 export const PrivateLayout = ({
@@ -16,9 +17,10 @@ export const PrivateLayout = ({
   title,
   description,
   actionsComponent,
+  className,
 }: IPrivateLayoutProps) => {
   return (
-    <div className="flex min-h-[100vh]">
+    <div className={`flex min-h-[100vh] ${className}`}>
       <div className="w-[30%] lg:w-[20%] h-[100vh] hidden md:flex md:fixed">
         <Sidebar />
       </div>
