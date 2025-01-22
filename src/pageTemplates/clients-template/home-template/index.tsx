@@ -1,13 +1,26 @@
 'use client';
+import { fetchStatement } from '@/api/statement/fetch-statement';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Paragraph } from '@/components/ui/paragraph';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useQuery } from '@tanstack/react-query';
 import { Coins, Stars } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export const ClientHomeTemplate = () => {
   const router = useRouter();
+  const { user } = useCurrentUser();
+  const { data: dataStatement, isPending } = useQuery({
+    queryFn: () =>
+      fetchStatement({
+        userId: user?.id,
+      }),
+    queryKey: ['statement', user?.id],
+  });
+
+  const balance = dataStatement?.balance;
 
   return (
     <PrivateLayout>
@@ -33,8 +46,8 @@ export const ClientHomeTemplate = () => {
               <Coins size={32} />
               <Heading className="text-1xl gap-4">
                 <strong className="text-[50px] font-semibold mr-4 ml-6">
-                  1440
-                </strong>{' '}
+                  {balance?.toFixed(2)}
+                </strong>
                 pontos
               </Heading>
             </div>
@@ -56,7 +69,7 @@ export const ClientHomeTemplate = () => {
             </div>
             <Button
               className="max-w-[200px]"
-              onClick={() => router.push('/indications')}
+              onClick={() => router.push('/statement')}
             >
               Conferir
             </Button>

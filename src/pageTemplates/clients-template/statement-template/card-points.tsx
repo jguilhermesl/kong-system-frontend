@@ -8,12 +8,11 @@ interface StatementCardProps {
   statement: StatementItem[];
 }
 
-export const StatementCard = ({ statement }: StatementCardProps) => {
+export const StatementCardList = ({ statement }: StatementCardProps) => {
   return (
     <div className="flex flex-col mt-5 gap-4">
       {statement.map((s) => {
-        const added = s.type === 'purchase';
-        const isIndication = s.type === 'indication';
+        const added = s.type === 'purchase' || s.type === 'indication';
 
         return (
           <section
@@ -25,22 +24,24 @@ export const StatementCard = ({ statement }: StatementCardProps) => {
                 className={clsx(
                   'bg-green-200 p-4 rounded-lg flex items-center justify-center w-[100px]',
                   {
-                    'bg-red-200': !isIndication,
+                    'bg-red-200': !added,
                   }
                 )}
               >
                 <Heading
                   className={clsx('text-green-600', {
-                    'text-red-600': !isIndication,
+                    'text-red-600': !added,
                   })}
                 >
-                  {added ? '+' + s.points : '-' + s.points}
+                  {added
+                    ? '+' + Number(s.points).toFixed(2)
+                    : '-' + Number(s.points).toFixed(2)}
                 </Heading>
               </div>
               <div>
                 <Paragraph className="font-semibold">
-                  {isIndication
-                    ? added
+                  {added
+                    ? s.type === 'purchase'
                       ? 'Entrada - Nova compra'
                       : 'Entrada - Nova indicação'
                     : 'Saída'}
@@ -48,8 +49,8 @@ export const StatementCard = ({ statement }: StatementCardProps) => {
                 {added && (
                   <>
                     <Paragraph>{s.inventory?.game}</Paragraph>
-                    {isIndication && (
-                      <Paragraph>| {s.inventory?.client?.name}</Paragraph>
+                    {added && (
+                      <Paragraph>{s.inventory?.client?.name || ''}</Paragraph>
                     )}
                   </>
                 )}

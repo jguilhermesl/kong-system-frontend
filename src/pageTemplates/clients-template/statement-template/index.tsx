@@ -5,7 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useQuery } from '@tanstack/react-query';
 import { CurrentPointsCard } from './current-points-card';
-import { StatementCard } from './card-points';
+import { StatementCardList } from './card-points';
 
 export const ClientStatementTemplate = () => {
   const { user } = useCurrentUser();
@@ -18,21 +18,18 @@ export const ClientStatementTemplate = () => {
   });
 
   const statement = dataStatement?.data || [];
+  const balance = dataStatement?.balance;
 
   return (
-    <PrivateLayout
-      className="relative"
-      title="Extrato de Pontos"
-      description="Confira seu extrato"
-    >
-      <CurrentPointsCard />
+    <PrivateLayout title="Extrato de Pontos" description="Confira seu extrato">
+      <CurrentPointsCard balance={balance} />
 
       {isPending ? (
         <div className="flex items-center justify-center">
           <Spinner />
         </div>
       ) : (
-        <StatementCard statement={statement} />
+        <StatementCardList statement={statement} />
       )}
     </PrivateLayout>
   );

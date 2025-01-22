@@ -1,28 +1,20 @@
 import { Card } from '@/components/ui/card';
 import { Paragraph } from '@/components/ui/paragraph';
-import { User } from '@/models/User';
-import { DollarSign } from 'lucide-react';
-
-export interface PointsUsage {
-  id: string;
-  userId: string;
-  user?: User;
-  createdAt: string;
-  points: number;
-}
 
 export interface PointsUsageProps {
-  data?: PointsUsage[];
+  balance?: number;
 }
 
-export const CurrentPointsCard = (data: PointsUsageProps) => {
+export const CurrentPointsCard = ({ balance }: PointsUsageProps) => {
   return (
-    <Card className="md:w-48 w-40 p-3 absolute right-6 md:top-5 top-24 flex flex-col justify-between h-24">
+    <Card className="w-60 p-3 flex flex-col justify-between h-24">
       <div className="w-full flex justify-between">
         <Paragraph className="font-semibold"> Total de pontos </Paragraph>
-        <DollarSign size={20} />
+        <div className="border-2 border-black w-8 h-8 rounded-full flex justify-center items-center">
+          <Paragraph className="font-bold text-lg text-primary"> K </Paragraph>
+        </div>
       </div>
-      <Paragraph className="font-bold text-xl"> {50}</Paragraph>
+      <Paragraph className="font-bold text-xl">{balance?.toFixed(2)}</Paragraph>
     </Card>
   );
 };
