@@ -4,7 +4,8 @@ import { StatementItem } from "@/models/Indication";
 import api from "@/services/api";
 
 export interface FetchStatementResponse extends ApiResponse {
-  data: StatementItem[]
+  data: StatementItem[],
+  balance: number
 }
 
 export interface FetchStatementProps {
