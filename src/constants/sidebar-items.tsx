@@ -1,4 +1,4 @@
-import { Home, Users, Award, Briefcase, BookUser } from 'lucide-react';
+import { Home, Users, Award, Briefcase, BookUser, User } from 'lucide-react';
 
 export const CLIENT_SIDEBAR_ITEMS = [
   {
@@ -20,6 +20,13 @@ export const CLIENT_SIDEBAR_ITEMS = [
     href: '/statement',
     icon: (active: boolean) => (
       <Award size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Perfil',
+    href: '/profile',
+    icon: (active: boolean) => (
+      <User size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
 ];
