@@ -1,4 +1,5 @@
 'use client';
+
 import { fetchStatement } from '@/api/statement/fetch-statement';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { Spinner } from '@/components/ui/spinner';

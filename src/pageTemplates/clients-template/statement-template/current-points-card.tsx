@@ -7,14 +7,19 @@ export interface PointsUsageProps {
 
 export const CurrentPointsCard = ({ balance }: PointsUsageProps) => {
   return (
-    <Card className="w-60 p-3 flex flex-col justify-between h-24">
+    <Card className="max-w-[300px] p-6 gap-10 flex flex-col justify-between">
       <div className="w-full flex justify-between">
-        <Paragraph className="font-semibold"> Total de pontos </Paragraph>
-        <div className="border-2 border-black w-8 h-8 rounded-full flex justify-center items-center">
-          <Paragraph className="font-bold text-lg text-primary"> K </Paragraph>
+        <Paragraph className="font-semibold text-neutral-500">
+          {' '}
+          Total de Pontos{' '}
+        </Paragraph>
+        <div className="bg-black size-6 rounded-full flex justify-center items-center">
+          <Paragraph className="font-bold text-sm text-primary"> K </Paragraph>
         </div>
       </div>
-      <Paragraph className="font-bold text-xl">{balance?.toFixed(2)}</Paragraph>
+      <Paragraph className="font-bold text-xl text-green-600">
+        {parseInt(balance?.toString() || '')} pontos
+      </Paragraph>
     </Card>
   );
 };

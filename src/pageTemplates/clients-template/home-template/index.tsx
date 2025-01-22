@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 export const ClientHomeTemplate = () => {
   const router = useRouter();
   const { user } = useCurrentUser();
-  const { data: dataStatement, isPending } = useQuery({
+  const { data: dataStatement } = useQuery({
     queryFn: () =>
       fetchStatement({
         userId: user?.id,
@@ -46,7 +46,7 @@ export const ClientHomeTemplate = () => {
               <Coins size={32} />
               <Heading className="text-1xl gap-4">
                 <strong className="text-[50px] font-semibold mr-4 ml-6">
-                  {balance?.toFixed(2)}
+                  {parseInt(balance?.toString() || '')}
                 </strong>
                 pontos
               </Heading>

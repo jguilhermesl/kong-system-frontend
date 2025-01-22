@@ -33,9 +33,7 @@ export const StatementCardList = ({ statement }: StatementCardProps) => {
                     'text-red-600': !added,
                   })}
                 >
-                  {added
-                    ? '+' + Number(s.points).toFixed(2)
-                    : '-' + Number(s.points).toFixed(2)}
+                  {added ? '+' + parseInt(s.points) : '-' + parseInt(s.points)}
                 </Heading>
               </div>
               <div>
