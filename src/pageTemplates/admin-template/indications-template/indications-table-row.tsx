@@ -5,7 +5,7 @@ import { Indication } from '@/models/Indication';
 import { queryClient } from '@/services/react-query';
 import ConfirmDialog from '@/utils/confirmDialog';
 import { formatDateAndHour } from '@/utils/format-date-and-hour';
-import { FormatPoints } from '@/utils/format-points';
+import { formatPoints } from '@/utils/format-points';
 import { isEven } from '@/utils/is-even';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
@@ -55,7 +55,7 @@ export const IndicationsTableRow = ({
       </Table.Col>
       <Table.Col className="font-medium">{item.user?.code}</Table.Col>
       <Table.Col className="font-medium">
-        {FormatPoints(item.points)} pontos
+        {formatPoints(item.points)} pontos
       </Table.Col>
       <Table.Col className="font-medium">
         {formatDateAndHour(item.createdAt) || '-'}
