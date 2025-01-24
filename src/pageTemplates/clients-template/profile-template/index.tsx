@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
 import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
@@ -27,10 +27,6 @@ export const ClientProfileTemplate = () => {
       body: UpdateClientProps;
       userId: string;
     }) => updateClient(body, userId),
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast('success', 'Perfil atualizado com sucesso!');
-    },
     onError(error: any) {
       toast('error', error?.message || 'Erro ao atualizar o perfil.');
     },
@@ -60,6 +56,8 @@ export const ClientProfileTemplate = () => {
     };
 
     await updateClientFn({ body, userId: user.id });
+    await queryClient.invalidateQueries({ queryKey: ['users'] });
+    toast('success', 'Perfil atualizado com sucesso!');
   };
 
   const { handleSubmit, getFieldProps, setFieldValue, errors } = useFormik({

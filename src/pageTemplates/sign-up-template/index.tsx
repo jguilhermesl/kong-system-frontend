@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -36,7 +37,6 @@ export const SignUpTemplate = () => {
       toast('success', 'Conta criada com sucesso!');
       router.push('/');
     } catch (error: any) {
-      console.log(error.response.data.message);
       if (error?.response?.data?.message === 'Usuário já existe.') {
         toast('error', 'Usuário já existe. Tente outro email');
         return;
