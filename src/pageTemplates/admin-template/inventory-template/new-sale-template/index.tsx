@@ -28,6 +28,12 @@ export const NewSaleTemplate = () => {
   const [inventorySuggestions, setInventorySuggestions] = useState<
     InventoryItem[]
   >([]);
+  const [inventoryAccountType, setInventoryAccountType] = useState<string>('');
+  const [inventoryGameVersion, setInventoryGameVersion] = useState<string>('');
+  const [inventoryAccountValue, setInventoryAccountValue] = useState<
+    number | undefined
+  >(0);
+
   const [clientsAutoCompleteValue, setClientsAutoCompleteValue] = useState('');
   const [clientsSuggestions, setClientsSuggestions] = useState<User[]>([]);
 
@@ -60,6 +66,9 @@ export const NewSaleTemplate = () => {
         inventory?.filter((i) => {
           const lowercaseGame = i.game.toLowerCase();
           const lowercaseId = i.id.toLowerCase();
+          setInventoryAccountType(i.accountType);
+          setInventoryGameVersion(i.gameVersion);
+          setInventoryAccountValue(i.accountValue);
 
           return (
             lowercaseGame.includes(lowercaseQuery) ||
@@ -141,6 +150,9 @@ export const NewSaleTemplate = () => {
       inventoryId: '',
       clientId: '',
       codeIndication: '',
+      accountType: '',
+      gameVersion: '',
+      AccountValue: '',
     },
     validationSchema: newSaleSchema,
     onSubmit: handleNewSale,
@@ -166,6 +178,45 @@ export const NewSaleTemplate = () => {
             label="Estoque"
             renderKeys={['id', 'game']}
           />
+          <FormInputField
+            {...getFieldProps('accountType')}
+            onChange={(e) => setFieldValue('accountType', e.target.value)}
+            label="Tipo de conta"
+            value={inventoryAccountType}
+            disabled
+            placeholder="Selecione o tipo de conta"
+            className="w-full"
+            error={errors.accountType}
+          />
+          <FormInputField
+            {...getFieldProps('gameVersion')}
+            onChange={(e) => setFieldValue('gameVersion', e.target.value)}
+            label="Versão do jogo"
+            value={inventoryGameVersion}
+            placeholder="Selecione a versão do jogo"
+            className="w-full"
+            disabled
+            error={errors.gameVersion}
+          />
+          <FormInputField
+            {...getFieldProps('AccountValue')}
+            onChange={(e) => setFieldValue('AccountValue', e.target.value)}
+            label="Valor do jogo"
+            value={inventoryAccountValue?.toString()}
+            placeholder="Digite o valor do jogo"
+            className="w-full"
+            disabled
+            error={errors.AccountValue}
+          />
+          <FormInputField
+            {...getFieldProps('codeIndication')}
+            onChange={(e) => setFieldValue('codeIndication', e.target.value)}
+            label="Código de Indicação (opcional)"
+            placeholder="Digite o código de indicação"
+            className="w-full"
+            error={errors.codeIndication}
+          />
+
           <FormInputField
             {...getFieldProps('price')}
             onChange={(e) => {
