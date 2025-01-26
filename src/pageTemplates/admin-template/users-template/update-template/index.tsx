@@ -15,6 +15,7 @@ import { toast } from '@/utils/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
+import { fetchClients } from '@/api/clients/fetch-clients';
 
 export const UpdateUserTemplate = () => {
   const router = useRouter();
@@ -34,8 +35,15 @@ export const UpdateUserTemplate = () => {
     queryFn: fetchUsers,
     queryKey: ['users'],
   });
+  const { data: clientsData } = useQuery({
+    queryFn: fetchClients,
+    queryKey: ['clients'],
+  });
 
   const userUpdate = usersData?.data?.find((user: any) => user.id === id);
+  const clientUpdate = clientsData?.data?.find(
+    (client: any) => client.id === id
+  );
 
   const handleUpdate = async (values: {
     name: string;
@@ -56,25 +64,34 @@ export const UpdateUserTemplate = () => {
 
     try {
       await updateUserFn({ body, userId });
-      toast('success', 'Usuário editado com sucesso!');
-      queryClient.invalidateQueries({
-        queryKey: ['users'],
-      });
+
+      const successMessage = clientUpdate
+        ? 'Cliente editado com sucesso!'
+        : 'Usuário editado com sucesso!';
+
+      const queryKey = clientUpdate ? ['clients'] : ['users'];
+      const redirectPath = clientUpdate ? '/admin/clients' : '/admin/users';
+
+      toast('success', successMessage);
+      queryClient.invalidateQueries({ queryKey });
       resetForm();
-      router.push('/admin/users');
+      router.push(redirectPath);
     } catch (error: any) {
-      toast('error', error?.message || 'Erro ao editar o usuário.');
+      const errorMessage = clientUpdate
+        ? 'Erro ao editar o cliente.'
+        : 'Erro ao editar o usuário.';
+      toast('error', error?.message || errorMessage);
     }
   };
 
   const { handleSubmit, getFieldProps, setFieldValue, errors, resetForm } =
     useFormik({
       initialValues: {
-        name: userUpdate?.name || '',
-        phone: userUpdate?.phone || '',
-        cpf: userUpdate?.cpf || '',
-        email: userUpdate?.email || '',
-        role: userUpdate?.role || 'client',
+        name: userUpdate?.name || clientUpdate?.name || '',
+        phone: userUpdate?.phone || clientUpdate?.phone || '',
+        cpf: userUpdate?.cpf || clientUpdate?.cpf || '',
+        email: userUpdate?.email || clientUpdate?.email || '',
+        role: userUpdate?.role || clientUpdate?.role || '',
       },
       enableReinitialize: true,
       validationSchema: updateUserSchema,
@@ -82,7 +99,7 @@ export const UpdateUserTemplate = () => {
     });
 
   return (
-    <PrivateLayout title="Editar Usuários">
+    <PrivateLayout title={clientUpdate ? 'Editar Cliente' : 'Editar Usuário'}>
       {isUpdating ? (
         <div className="flex w-full justify-center">
           <Spinner className="!text-primary" />
@@ -143,8 +160,10 @@ export const UpdateUserTemplate = () => {
           >
             {isUpdating ? (
               <Spinner className="border-l-white border-t-white" />
+            ) : clientUpdate ? (
+              'Editar Cliente'
             ) : (
-              'Editar usuário'
+              'Editar Usuário'
             )}
           </Button>
         </form>
