@@ -19,7 +19,7 @@ export const AdminInventoryTemplate = () => {
             Adicionar venda
           </Button>
           <Button
-            className="!bg-secondary !text-primary"
+            variant={'secondary'}
             onClick={() => router.push('/admin/inventory/new-registration')}
           >
             <Plus className="mr-2 h-4 w-4" />

@@ -2,7 +2,7 @@ import { Root, Indicator, CheckboxProps } from '@radix-ui/react-checkbox';
 import clsx from 'clsx';
 
 import { Check } from 'lucide-react';
-import { Paragraph } from '../paragraph';
+import { Paragraph } from './paragraph';
 
 interface ICheckboxProps extends CheckboxProps {
   label?: string;
