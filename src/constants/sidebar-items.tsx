@@ -1,4 +1,12 @@
-import { Home, Users, Award, Briefcase, BookUser, User } from 'lucide-react';
+import {
+  Home,
+  Users,
+  Award,
+  Briefcase,
+  BookUser,
+  User,
+  CircleDollarSign,
+} from 'lucide-react';
 
 export const CLIENT_SIDEBAR_ITEMS = [
   {
@@ -65,6 +73,13 @@ export const ADMIN_SIDEBAR_ITEMS = [
     href: '/admin/indications',
     icon: (active: boolean) => (
       <Award size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Financeiro',
+    href: '/admin/financial',
+    icon: (active: boolean) => (
+      <CircleDollarSign size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
 ];
