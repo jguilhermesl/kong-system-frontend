@@ -1,11 +1,7 @@
 'use client';
-import { useState } from 'react';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
-import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import { HomeField } from './home-field';
-import { EditableField } from './editable-fields';
-import { ERegistrationStep } from '@/constants/steps-new-registration';
 
 export const NewRegistrationTemplate = () => {
   const formik = useFormik({
@@ -17,7 +13,7 @@ export const NewRegistrationTemplate = () => {
       gameValue: '',
       purchaseValue: '',
       valuePrimary: '',
-      valueSecundary: '',
+      valueSecondary: '',
       purchaseResponsible: '',
       gameVersion: '',
     },

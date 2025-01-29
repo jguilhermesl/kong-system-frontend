@@ -12,7 +12,7 @@ export const EditableField = () => {
       gameValue: '',
       purchaseValue: '',
       valuePrimary: '',
-      valueSecundary: '',
+      valueSecondary: '',
     },
     onSubmit: (values) => {
       console.log('Form submitted:', values);
@@ -65,14 +65,14 @@ export const EditableField = () => {
         value={formatPrice(values.valuePrimary)}
       />
       <FormInputField
-        {...getFieldProps('valueSecundary')}
+        {...getFieldProps('valueSecondary')}
         onChange={(e) =>
-          setFieldValue('valueSecundary', formatPrice(e.target.value))
+          setFieldValue('valueSecondary', formatPrice(e.target.value))
         }
         label="Valor da Secundária"
         placeholder="Digite o valor da secundária"
         className="w-full"
-        value={formatPrice(values.valueSecundary)}
+        value={formatPrice(values.valueSecondary)}
       />
       <Button type="submit">Adicionar Jogo</Button>
     </form>

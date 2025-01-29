@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
