@@ -4,9 +4,10 @@ import { FinancialTableRow } from './financial-table-row';
 import { fetchFinancial } from '@/api/financial/fetch-financial';
 import { useQuery } from '@tanstack/react-query';
 import { Financial } from '@/models/Financial';
+import { Spinner } from '@/components/ui/spinner';
 
 export const FinancialTable = () => {
-  const { data: dataFinancial } = useQuery({
+  const { data: dataFinancial, isPending } = useQuery({
     queryFn: fetchFinancial,
     queryKey: ['financial'],
   });
@@ -15,7 +16,9 @@ export const FinancialTable = () => {
 
   return (
     <div className="flex items-center mt-5 w-full justify-center">
-      <div className="flex items-center w-full flex-1 border rounded-md">
+      {isPending ? (
+        <Spinner />
+      ) : (
         <Table
           headers={[
             'Data de Venda',
@@ -38,7 +41,7 @@ export const FinancialTable = () => {
             <FinancialTableRow key={index} index={index} item={item} />
           ))}
         </Table>
-      </div>
+      )}
     </div>
   );
 };

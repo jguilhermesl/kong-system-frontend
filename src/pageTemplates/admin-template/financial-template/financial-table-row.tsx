@@ -61,7 +61,9 @@ export const FinancialTableRow = ({ item, index }: FinancialTableRowProps) => {
       <Table.Col className="font-medium">{item.obs || '-'}</Table.Col>
       <Table.Col className="font-medium">{item.client?.name || '-'}</Table.Col>
       <Table.Col className="font-medium">{item.clientNumber || '-'}</Table.Col>
-      <Table.Col className="font-medium">{item.seller?.name || '-'}</Table.Col>
+      <Table.Col className="font-medium">
+        {item.createdBy?.name || '-'}
+      </Table.Col>
       <Table.Col>
         <Button size="sm">
           <Trash className="mr-2 h-3 w-3" />
