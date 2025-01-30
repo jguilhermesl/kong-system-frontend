@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
@@ -28,8 +29,8 @@ export const ModalAcquireConfirmationDialog = ({
   const handleRequestGame = async (storeItemId: string) => {
     try {
       await requestGameFn({ storeItemId });
-      setModalIsOpen(false);
       toast('success', 'Jogo solicitado com sucesso!');
+      setModalIsOpen(false);
     } catch (error: any) {
       console.error('Error requesting game:', error);
       toast('error', error?.message || 'Erro ao solicitar jogo.');
