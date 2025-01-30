@@ -1,22 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse } from "@/models/ApiResponse";
+import { Purchase } from "@/models/Purchase";
 import api from "@/services/api";
-
-export interface Purchase {
-  id: string;
-  createdAt: string | null;
-  inventory: Inventory;
-}
-
-export interface Inventory {
-  accountType: string;
-  accountValue: string;
-  email: string;
-  game: string;
-  gameVersion: string;
-  password: string;
-}
-
 export interface getClientPurchasesResponse extends ApiResponse {
   data: Purchase[];
 }
