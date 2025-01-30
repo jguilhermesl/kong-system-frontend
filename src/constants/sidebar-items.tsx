@@ -5,6 +5,7 @@ import {
   Briefcase,
   BookUser,
   User,
+  CircleDollarSign,
   Coins,
   Store,
   LayoutList,
@@ -89,6 +90,13 @@ export const ADMIN_SIDEBAR_ITEMS = [
     href: '/admin/indications',
     icon: (active: boolean) => (
       <Award size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Financeiro',
+    href: '/admin/financial',
+    icon: (active: boolean) => (
+      <CircleDollarSign size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
 ];
