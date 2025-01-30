@@ -6,6 +6,9 @@ import {
   BookUser,
   User,
   CircleDollarSign,
+  Coins,
+  Store,
+  LayoutList,
 } from 'lucide-react';
 
 export const CLIENT_SIDEBAR_ITEMS = [
@@ -24,10 +27,17 @@ export const CLIENT_SIDEBAR_ITEMS = [
     ),
   },
   {
-    title: 'Extrato',
+    title: 'Extrato de Pontos',
     href: '/statement',
     icon: (active: boolean) => (
-      <Award size={24} color={active ? '#F96B04' : '#FFF'} />
+      <Coins size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Loja',
+    href: '/store',
+    icon: (active: boolean) => (
+      <Store size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
   {
@@ -66,6 +76,13 @@ export const ADMIN_SIDEBAR_ITEMS = [
     href: '/admin/inventory',
     icon: (active: boolean) => (
       <Briefcase size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Pendências',
+    href: '/admin/pending-tasks',
+    icon: (active: boolean) => (
+      <LayoutList size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
   {
