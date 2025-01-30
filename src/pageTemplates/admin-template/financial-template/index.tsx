@@ -1,8 +1,8 @@
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
-import { FinancialExtract } from './financial-extract';
+// import { FinancialExtract } from './financial-extract';
 import { FinancialTable } from './financial-table';
 import { Button } from '@/components/ui/button';
-import { CircleDollarSign, HandCoins } from 'lucide-react';
+import { CircleDollarSign } from 'lucide-react';
 
 export const FinancialTemplate = () => {
   return (
@@ -14,8 +14,7 @@ export const FinancialTemplate = () => {
       }
       title="Financeiro"
     >
-      <FinancialExtract />
-
+      {/* <FinancialExtract /> */}
       <FinancialTable />
     </PrivateLayout>
   );
