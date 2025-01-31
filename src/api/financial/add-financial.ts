@@ -4,7 +4,7 @@ import api from "@/services/api";
 export interface AddFinancialProps {
   productType: string;
   productName: string;
-  saleValue: number;
+  saleValue?: number;
   productValue: number;
   clientId?: string;
 }
