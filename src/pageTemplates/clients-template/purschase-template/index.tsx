@@ -42,9 +42,9 @@ export const PurchaseTemplate = () => {
               gameVersion: purchase.inventory.gameVersion || '',
               accountType: purchase.inventory.accountType || '',
               email: purchase.inventory.email || '',
-              password: purchase.inventory.password || '',
+              password: purchase.inventory.psnPassword || '',
               createdAt: purchase.createdAt || '',
-              accountValue: purchase.inventory.accountValue || '',
+              accountValue: purchase.inventory.accountValue.toString() || '',
             }}
           />
         ))
