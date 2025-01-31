@@ -33,7 +33,7 @@ export const PrivateLayout = ({
               <Paragraph className="text-sm md:flex">{description}</Paragraph>
             </div>
           )}
-          {actionsComponent}
+          <div className="flex justify-end gap-4">{actionsComponent}</div>
         </div>
         <div className="!mx-6 pb-6">{children}</div>
       </div>
