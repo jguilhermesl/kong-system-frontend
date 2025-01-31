@@ -2,12 +2,14 @@
 import { InputHTMLAttributes, ReactNode } from 'react';
 import { Input } from './ui/input';
 import { Paragraph } from './ui/paragraph';
+import clsx from 'clsx';
 
 interface IFormInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   description?: string;
   className?: string;
+  inputClassName?: string;
   onChange?: (e: any) => void;
   value?: string;
   iconRight?: ReactNode;
@@ -23,6 +25,7 @@ export const FormInputField = ({
   onChange,
   iconRight,
   error,
+  inputClassName,
   ...props
 }: IFormInputFieldProps) => {
   return (
@@ -33,7 +36,7 @@ export const FormInputField = ({
         placeholder={placeholder}
         onChange={onChange}
         value={value}
-        className="mt-2 mb-2"
+        className={clsx('mt-2 mb-2', inputClassName)}
         iconRight={iconRight}
       />
       {description && (

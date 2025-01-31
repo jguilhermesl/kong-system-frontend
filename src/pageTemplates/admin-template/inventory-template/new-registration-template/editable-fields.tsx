@@ -1,26 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormInputField } from '@/components/form-input-field';
 import { FormSelectField } from '@/components/form-select-field';
-import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/utils/format-price';
 
-import { useFormik } from 'formik';
-
-export const EditableField = () => {
-  const { handleSubmit, getFieldProps, setFieldValue, values } = useFormik({
-    initialValues: {
-      gameVersion: 'PS4',
-      gameValue: '',
-      purchaseValue: '',
-      valuePrimary: '',
-      valueSecondary: '',
-    },
-    onSubmit: (values) => {
-      console.log('Form submitted:', values);
-    },
-  });
-
+export const EditableField = ({
+  getFieldProps,
+  setFieldValue,
+  values,
+}: {
+  getFieldProps: (field: string) => any;
+  setFieldValue: (field: string, value: any) => void;
+  values: { [key: string]: any };
+}) => {
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <>
       <FormSelectField
         {...getFieldProps('gameVersion')}
         onChange={(value: string) => setFieldValue('gameVersion', value)}
@@ -74,7 +67,6 @@ export const EditableField = () => {
         className="w-full"
         value={formatPrice(values.valueSecondary)}
       />
-      <Button type="submit">Adicionar Jogo</Button>
-    </form>
+    </>
   );
 };
