@@ -20,7 +20,7 @@ import { FormSelectField } from '@/components/form-select-field';
 import { convertQuantityToReal } from '@/utils/convert-quantity-to-real';
 import { convertRealToNumber } from '@/utils/convert-real-to-number';
 import { fetchClients } from '@/api/clients/fetch-clients';
-import { SELLER_OPTIONS } from '@/constants/seller-options';
+import { fetchSellers } from '@/api/sellers/fetch-sellers';
 
 export const NewSaleTemplate = () => {
   const [inventoryAutoCompleteValue, setInventoryAutoCompleteValue] =
@@ -49,6 +49,11 @@ export const NewSaleTemplate = () => {
   const { data: clientsData } = useQuery({
     queryFn: fetchClients,
     queryKey: ['clients'],
+  });
+
+  const { data: sellersData } = useQuery({
+    queryFn: fetchSellers,
+    queryKey: ['sellers'],
   });
 
   const handleGetInventoryItems = useCallback(
@@ -98,7 +103,7 @@ export const NewSaleTemplate = () => {
   );
 
   const handleNewSale = async (values: {
-    sellerName: string;
+    sellerId: string;
     price: string;
     inventoryId: string;
     clientId: string;
@@ -107,7 +112,7 @@ export const NewSaleTemplate = () => {
     const saleValue = convertRealToNumber(values.price) || 0;
 
     const body: NewSaleProps = {
-      sellerName: values.sellerName,
+      sellerId: values.sellerId,
       saleValue,
       inventoryId: values.inventoryId,
       clientId: values.clientId,
@@ -137,7 +142,7 @@ export const NewSaleTemplate = () => {
   } = useFormik({
     initialValues: {
       price: '',
-      sellerName: '',
+      sellerId: '',
       inventoryId: '',
       clientId: '',
       codeIndication: '',
@@ -145,6 +150,8 @@ export const NewSaleTemplate = () => {
     validationSchema: newSaleSchema,
     onSubmit: handleNewSale,
   });
+
+  const sellers = sellersData?.data || [];
 
   return (
     <PrivateLayout title="Nova Venda">
@@ -188,12 +195,17 @@ export const NewSaleTemplate = () => {
             renderKeys={['name', 'email']}
           />
           <FormSelectField
-            {...getFieldProps('sellerName')}
-            onChange={(value: string) => setFieldValue('sellerName', value)}
+            {...getFieldProps('sellerId')}
+            onChange={(value: string) => setFieldValue('sellerId', value)}
             label="Vendedor"
             placeholder="Selecione o vendedor"
             className="w-full"
-            choices={SELLER_OPTIONS}
+            choices={sellers?.map((s) => {
+              return {
+                value: s.id,
+                label: s.name,
+              };
+            })}
           />
           <FormInputField
             {...getFieldProps('codeIndication')}

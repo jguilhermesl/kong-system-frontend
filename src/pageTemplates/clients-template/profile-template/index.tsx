@@ -97,7 +97,6 @@ export const ClientProfileTemplate = () => {
             iconRight={<IdCard size={16} />}
             placeholder="Digite seu CPF"
             className="w-full"
-            disabled
             error={errors.cpf}
           />
           <FormInputField

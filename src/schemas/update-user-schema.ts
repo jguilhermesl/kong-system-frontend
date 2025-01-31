@@ -4,7 +4,7 @@ export const updateUserSchema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
   cpf: Yup.string().min(14, "O CPF deve conter 11 caracteres")
-    .required("Campo obrigatório"),
+    .optional(),
   phone: Yup.string()
     .matches(
       /^\d{2}\s\d{5}-\d{4}$/,
