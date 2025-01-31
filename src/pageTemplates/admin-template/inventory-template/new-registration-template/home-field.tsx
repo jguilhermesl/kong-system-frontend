@@ -6,14 +6,18 @@ import { Button } from '@/components/ui/button';
 import { EditableField } from './editable-fields';
 import { useFormik } from 'formik';
 import { addInventory } from '@/api/inventory/add-inventory';
+import { queryClient } from '@/services/react-query';
+import { toast } from '@/utils/toast';
+import { useRouter } from 'next/navigation';
+import { Spinner } from '@/components/ui/spinner';
 
 export const HomeField = ({}) => {
   const [email, setEmail] = useState('');
   const [psnPassword, setPsnPassword] = useState('');
   const [psnUser, setPsnUser] = useState('');
+  const router = useRouter();
 
   const handleAddInventory = async () => {
-    console.log('arrived');
     try {
       await addInventory({
         game: values.name,
@@ -27,13 +31,17 @@ export const HomeField = ({}) => {
         primaryValue: values.valuePrimary,
         secondaryValue: values.valueSecondary,
       });
-      console.log('Inventory added successfully');
+      toast('success', 'Estoque adicionado com sucesso!');
+      queryClient.invalidateQueries({
+        queryKey: ['inventory'],
+      });
+      router.push('/admin/inventory');
     } catch (error) {
       console.error('Error adding inventory:', error);
     }
   };
 
-  const { setFieldValue, getFieldProps, values, handleSubmit, errors } =
+  const { setFieldValue, getFieldProps, values, handleSubmit, isSubmitting } =
     useFormik({
       initialValues: {
         name: '',
@@ -50,40 +58,42 @@ export const HomeField = ({}) => {
       onSubmit: handleAddInventory,
     });
 
-  console.log('==> ', errors);
-
   return (
-    <>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full ">
-        <FormInputField
-          label="Nome do Jogo"
-          placeholder="Digite o nome do jogo"
-          className="w-full  gap-16"
-          value={values.name}
-          onChange={(e) => setFieldValue('name', e.target.value)}
-          error={undefined}
-        />
+    <div className="flex items-center justify-center w-full">
+      {isSubmitting ? (
+        <Spinner />
+      ) : (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full ">
+          <FormInputField
+            label="Nome do Jogo"
+            placeholder="Digite o nome do jogo"
+            className="w-full  gap-16"
+            value={values.name}
+            onChange={(e) => setFieldValue('name', e.target.value)}
+            error={undefined}
+          />
 
-        {values.name && (
-          <>
-            <GeneratedDataRegistration
-              game={values.name}
-              email={email}
-              psnPassword={psnPassword}
-              psnUser={psnUser}
-              setEmail={setEmail}
-              setPsnPassword={setPsnPassword}
-              setPsnUser={setPsnUser}
-            />
-            <EditableField
-              getFieldProps={getFieldProps}
-              setFieldValue={setFieldValue}
-              values={values}
-            />
-          </>
-        )}
-        <Button onClick={() => console.log('test')}>Adicionar Jogo</Button>
-      </form>
-    </>
+          {values.name && (
+            <>
+              <GeneratedDataRegistration
+                game={values.name}
+                email={email}
+                psnPassword={psnPassword}
+                psnUser={psnUser}
+                setEmail={setEmail}
+                setPsnPassword={setPsnPassword}
+                setPsnUser={setPsnUser}
+              />
+              <EditableField
+                getFieldProps={getFieldProps}
+                setFieldValue={setFieldValue}
+                values={values}
+              />
+            </>
+          )}
+          <Button>Adicionar</Button>
+        </form>
+      )}
+    </div>
   );
 };

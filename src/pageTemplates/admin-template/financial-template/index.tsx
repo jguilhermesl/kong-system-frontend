@@ -8,13 +8,14 @@ import { useRouter } from 'next/navigation';
 
 export const FinancialTemplate = () => {
   const router = useRouter();
-  const handleNewExpense = () => {
-    router.push('financial/new-expense');
-  };
+
   return (
     <PrivateLayout
       actionsComponent={
-        <Button onClick={handleNewExpense} className="gap-2">
+        <Button
+          onClick={() => router.push('financial/new-expense')}
+          className="gap-2"
+        >
           Adicionar nova despesa <CircleDollarSign size={20} color="#fff" />{' '}
         </Button>
       }

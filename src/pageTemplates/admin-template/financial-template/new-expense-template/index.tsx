@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { useMutation } from '@tanstack/react-query';
@@ -12,7 +13,7 @@ import { toast } from '@/utils/toast';
 import { useRouter } from 'next/navigation';
 import { createExpenseSchema } from '@/schemas/create-expense-schema';
 import { convertQuantityToReal } from '@/utils/convert-quantity-to-real';
-import { extractNumber } from '@/utils/extract-Number';
+import { extractNumber } from '@/utils/extract-number';
 
 export const NewExpenseTemplate = () => {
   const router = useRouter();
@@ -29,20 +30,20 @@ export const NewExpenseTemplate = () => {
     productValue: string;
     clientId?: string;
   }) => {
-    const productValueFormated = extractNumber(values.productValue);
+    const productValueFormatted = extractNumber(values.productValue);
     const body: AddFinancialProps = {
       productType: values.productType,
       productName: values.productName,
-      productValue: productValueFormated,
+      productValue: productValueFormatted,
       clientId: values.clientId || undefined,
     };
 
     try {
       await addFinancialFn(body);
-      toast('success', 'Despesa criada com sucesso!');
-      queryClient.invalidateQueries({ queryKey: ['financial'] });
+      await queryClient.invalidateQueries({ queryKey: ['financial'] });
       resetForm();
       router.push('/admin/financial');
+      toast('success', 'Despesa criada com sucesso!');
     } catch (error: any) {
       toast('error', error?.message || 'Erro ao criar a despesa.');
     }
@@ -60,7 +61,6 @@ export const NewExpenseTemplate = () => {
       productType: '',
       productName: '',
       productValue: '',
-      clientId: '',
     },
     validationSchema: createExpenseSchema,
     onSubmit: handleCreateExpense,
@@ -114,15 +114,6 @@ export const NewExpenseTemplate = () => {
             error={errors.productValue}
           />
 
-          <FormInputField
-            {...getFieldProps('clientId')}
-            onChange={(e) => setFieldValue('clientId', e.target.value)}
-            label="ID do Cliente (Opcional)"
-            placeholder="Digite o ID do cliente"
-            className="w-full"
-            error={errors.clientId}
-          />
-
           <Button
             type="submit"
             className="!rounded-md !font-poppins !font-medium mt-4"
@@ -130,7 +121,7 @@ export const NewExpenseTemplate = () => {
             {isSubmitting ? (
               <Spinner className="border-l-white border-t-white" />
             ) : (
-              'Adicionar Despesa'
+              'Adicionar'
             )}
           </Button>
         </form>
