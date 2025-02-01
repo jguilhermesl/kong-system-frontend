@@ -3,6 +3,7 @@
 'use client';
 import { fetchGames } from '@/api/games/fetch-games';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import { useDebounce } from '@/hooks/useDebounce';
 import { flexibleSearch } from '@/utils/flexible-search';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +13,7 @@ const GamesPage = () => {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
 
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['games'],
     queryFn: fetchGames,
   });
@@ -47,33 +48,39 @@ const GamesPage = () => {
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-[700px] mx-auto"
         />
-        <ul className="flex flex-wrap justify-center gap-8 mt-8">
-          {filteredGames?.map((game) => (
-            <li
-              key={game.id}
-              className=" max-w-[150px] flex flex-col items-center gap-4"
-            >
-              <img
-                src={game.imageLink}
-                alt={game.game}
-                className="w-full max-h-[50%] object-cover rounded-md "
-                loading="lazy" // Implementa o lazy loading
-              />
-              <div className="w-full">
-                <p className="font-bold text-primary text-[10px]">
-                  {game.gameVersion}
-                </p>
-                <h3 className="text-xs font-semibold mb-2">{game.game}</h3>
-                <p className="text-[10px] text-gray-700">
-                  - Primária: <strong>{game.primaryValue}</strong>
-                </p>
-                <p className="text-[10px] text-gray-700">
-                  - Secundária: <strong>{game.secondaryValue}</strong>
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {isPending ? (
+          <div className="flex items-center justify-center w-full">
+            <Spinner />
+          </div>
+        ) : (
+          <ul className="flex flex-wrap justify-center gap-8 mt-8">
+            {filteredGames?.map((game) => (
+              <li
+                key={game.id}
+                className=" max-w-[150px] flex flex-col items-center gap-4"
+              >
+                <img
+                  src={game.imageLink}
+                  alt={game.game}
+                  className="w-full max-h-[50%] object-cover rounded-md "
+                  loading="lazy" // Implementa o lazy loading
+                />
+                <div className="w-full">
+                  <p className="font-bold text-primary text-[10px]">
+                    {game.gameVersion}
+                  </p>
+                  <h3 className="text-xs font-semibold mb-2">{game.game}</h3>
+                  <p className="text-[10px] text-gray-700">
+                    - Primária: <strong>{game.primaryValue}</strong>
+                  </p>
+                  <p className="text-[10px] text-gray-700">
+                    - Secundária: <strong>{game.secondaryValue}</strong>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </div>
   );
