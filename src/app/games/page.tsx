@@ -49,7 +49,7 @@ const GamesPage = () => {
           className="max-w-[700px] mx-auto"
         />
         {isPending ? (
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center w-full mt-8">
             <Spinner />
           </div>
         ) : (
