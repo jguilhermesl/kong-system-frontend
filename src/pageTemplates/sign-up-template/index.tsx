@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
 import { createUser } from '@/api/users/create-user';
@@ -167,12 +166,12 @@ export const SignUpTemplate = () => {
             )}
           </Button>
         </form>
-        <Link
+        {/* <Link
           className="mt-2 sm:flex hover:underline py-2 px-4 rounded-lg "
           href={'/'}
         >
           <p className="font-bold text-sm">Já tem cadastro? Faça login</p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

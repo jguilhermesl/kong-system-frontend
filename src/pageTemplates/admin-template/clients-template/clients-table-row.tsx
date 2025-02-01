@@ -46,6 +46,7 @@ export const ClientsTableRow = ({ item, index }: ClientsTableRowProps) => {
   return (
     <Table.Row isEven={isEven(index + 1)}>
       <Table.Col className="font-medium">{item.name}</Table.Col>
+      <Table.Col className="font-medium">{item.phone}</Table.Col>
       <Table.Col>
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-slate-400" />

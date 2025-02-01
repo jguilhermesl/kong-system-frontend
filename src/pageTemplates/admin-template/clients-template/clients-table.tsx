@@ -18,7 +18,17 @@ export const ClientsTable = () => {
         <Spinner />
       ) : (
         <div className="flex items-center w-full flex-1 border rounded-md">
-          <Table headers={['Nome', 'Console', 'E-mail', 'Criado em', '', '']}>
+          <Table
+            headers={[
+              'Nome',
+              'Telefone',
+              'Console',
+              'E-mail',
+              'Criado em',
+              '',
+              '',
+            ]}
+          >
             {clients?.map((item, i) => {
               return <ClientsTableRow key={i} index={i} item={item} />;
             })}

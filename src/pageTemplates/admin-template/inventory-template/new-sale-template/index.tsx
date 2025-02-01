@@ -171,7 +171,7 @@ export const NewSaleTemplate = () => {
             setItem={(item) => setFieldValue('inventoryId', item)}
             suggestions={inventorySuggestions}
             label="Estoque"
-            renderKeys={['id', 'game']}
+            renderKeys={['id', 'game', 'accountType', 'gameVersion']}
           />
           <FormInputField
             {...getFieldProps('price')}
