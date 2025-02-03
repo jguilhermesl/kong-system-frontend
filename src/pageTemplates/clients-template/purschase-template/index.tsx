@@ -7,6 +7,7 @@ import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Spinner } from '@/components/ui/spinner';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { formatDate } from '@/utils/format-date';
 
 export const PurchaseTemplate = () => {
   const { user } = useCurrentUser();
@@ -29,7 +30,7 @@ export const PurchaseTemplate = () => {
         </div>
       ) : dataClientIsEmpty ? (
         <EmptyState
-          title="Minhas compras"
+          title="compras"
           description="Você ainda não possui compras na Kong. Confira nosso catálogo e aproveite!"
         />
       ) : (
@@ -43,7 +44,7 @@ export const PurchaseTemplate = () => {
               accountType: purchase.inventory.accountType || '',
               email: purchase.inventory.email || '',
               password: purchase.inventory.psnPassword || '',
-              createdAt: purchase.createdAt || '',
+              createdAt: formatDate(purchase.createdAt as string) || '',
               accountValue: purchase.inventory.accountValue.toString() || '',
             }}
           />
