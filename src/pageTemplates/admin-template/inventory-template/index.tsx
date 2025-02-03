@@ -8,7 +8,6 @@ import { InventoryTableFilters } from './inventory-table-filters';
 
 export const AdminInventoryTemplate = () => {
   const router = useRouter();
-
   return (
     <PrivateLayout
       title="Estoque de Jogos"
