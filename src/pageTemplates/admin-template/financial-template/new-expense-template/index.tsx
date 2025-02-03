@@ -84,9 +84,9 @@ export const NewExpenseTemplate = () => {
             placeholder="Selecione o tipo de produto"
             className="w-full"
             choices={[
-              { value: 'game', label: 'Compra de Jogo' },
-              { value: 'accessory', label: 'Acessório' },
-              { value: 'investment', label: 'Investimento' },
+              { value: 'COMPRA DE JOGO', label: 'Compra de Jogo' },
+              { value: 'ACESSÓRIO', label: 'Acessório' },
+              { value: 'INVESTIMENTO', label: 'Investimento' },
               { value: 'MEI', label: 'MEI' },
             ]}
           />

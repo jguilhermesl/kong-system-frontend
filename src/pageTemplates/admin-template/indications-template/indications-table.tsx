@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchIndications } from '@/api/indications/fetch-indications';
 import { Spinner } from '@/components/ui/spinner';
 import { Indication } from '@/models/Indication';
+import { Paragraph } from '@/components/ui/paragraph';
 
 export const IndicationsTable = () => {
   const { data: indicationsData, isPending } = useQuery({
@@ -17,7 +18,7 @@ export const IndicationsTable = () => {
     <div className="flex items-center w-full justify-center">
       {isPending ? (
         <Spinner />
-      ) : (
+      ) : indications?.length > 0 ? (
         <div className="flex items-center w-full flex-1 border rounded-md">
           <Table
             headers={[
@@ -35,6 +36,8 @@ export const IndicationsTable = () => {
             })}
           </Table>
         </div>
+      ) : (
+        <Paragraph>Sem indicações.</Paragraph>
       )}
     </div>
   );

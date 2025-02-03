@@ -5,6 +5,11 @@ import { Financial } from '@/models/Financial';
 import { isEven } from '@/utils/is-even';
 import { Check, Trash, X } from 'lucide-react';
 import clsx from 'clsx';
+import { queryClient } from '@/services/react-query';
+import { deleteFinancial } from '@/api/financial/delete-financial';
+import { useMutation } from '@tanstack/react-query';
+import ConfirmDialog from '@/utils/confirmDialog';
+import { toast } from '@/utils/toast';
 
 interface FinancialTableRowProps {
   item: Financial;
@@ -12,6 +17,30 @@ interface FinancialTableRowProps {
 }
 
 export const FinancialTableRow = ({ item, index }: FinancialTableRowProps) => {
+  const { mutateAsync: deleteFinancialFn, isPending } = useMutation({
+    mutationFn: deleteFinancial,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ['financial'],
+      });
+    },
+  });
+
+  const handleDelete = async (itemID: string) => {
+    const result = await ConfirmDialog({
+      title: 'Você realmente deseja excluir esse registro financeiro?',
+      confirmButtonText: 'Excluir',
+    });
+    if (result.isConfirmed) {
+      try {
+        await deleteFinancialFn({ id: itemID });
+        toast('success', 'Registro financeiro deletado com sucesso!');
+      } catch {
+        toast('error', 'Erro ao deletar registro financeiro');
+      }
+    }
+  };
+
   const formatCurrency = (value?: string) => {
     if (!value) return 0;
     const sanitizedValue = value.replace('R$', '').replace(',', '.').trim();
@@ -65,7 +94,11 @@ export const FinancialTableRow = ({ item, index }: FinancialTableRowProps) => {
         {item.createdBy?.name || '-'}
       </Table.Col>
       <Table.Col>
-        <Button size="sm">
+        <Button
+          size="sm"
+          onClick={() => handleDelete(item.id)}
+          disabled={isPending}
+        >
           <Trash className="mr-2 h-3 w-3" />
           Deletar
         </Button>
