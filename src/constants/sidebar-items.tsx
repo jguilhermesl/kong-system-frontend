@@ -42,17 +42,17 @@ export const CLIENT_SIDEBAR_ITEMS = [
     ),
   },
   {
-    title: 'Perfil',
-    href: '/profile',
-    icon: (active: boolean) => (
-      <User size={24} color={active ? '#F96B04' : '#FFF'} />
-    ),
-  },
-  {
     title: 'Minhas compras',
     href: '/purshase',
     icon: (active: boolean) => (
       <ShoppingBag size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Perfil',
+    href: '/profile',
+    icon: (active: boolean) => (
+      <User size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
 ];

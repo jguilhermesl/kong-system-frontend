@@ -18,7 +18,7 @@ export const CurrentPointsCard = ({ balance }: PointsUsageProps) => {
         </div>
       </div>
       <Paragraph className="font-bold text-xl text-green-600">
-        {parseInt(balance?.toString() || '')} pontos
+        {parseInt(balance?.toString() || '0')} pontos
       </Paragraph>
     </Card>
   );

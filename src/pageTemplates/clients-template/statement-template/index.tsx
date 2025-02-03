@@ -23,14 +23,15 @@ export const ClientStatementTemplate = () => {
 
   return (
     <PrivateLayout title="Extrato de Pontos" description="Confira seu extrato">
-      <CurrentPointsCard balance={balance} />
-
       {isPending ? (
         <div className="flex items-center justify-center">
           <Spinner />
         </div>
       ) : (
-        <StatementCardList statement={statement} />
+        <div>
+          <CurrentPointsCard balance={balance} />
+          <StatementCardList statement={statement} />
+        </div>
       )}
     </PrivateLayout>
   );

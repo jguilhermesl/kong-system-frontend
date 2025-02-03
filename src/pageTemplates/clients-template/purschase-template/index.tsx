@@ -23,7 +23,7 @@ export const PurchaseTemplate = () => {
   const dataClientIsEmpty = dataClient?.data.length === 0;
 
   return (
-    <PrivateLayout title="Minhas compras" description="Confira seu extrato">
+    <PrivateLayout title="Minhas compras" description="Confira suas compras">
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
           <Spinner />

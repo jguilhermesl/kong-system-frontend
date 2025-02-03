@@ -28,7 +28,7 @@ export const ClientIndicationsTemplate = () => {
 
   return (
     <PrivateLayout title="Indicações" description="Confira suas indicações">
-      <div className="bg-orange-200 flex-col p-8 rounded-xl flex  gap-6">
+      <div className="bg-orange-200 flex-col p-8 rounded-xl flex gap-6 mb-6">
         <div className="flex items-center gap-8">
           <Paragraph className="text-3xl font-bold text-primary">
             {code}
