@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Button } from '@/components/ui/button';
 import { Table } from '@/components/ui/table';
@@ -10,6 +11,7 @@ import { deleteFinancial } from '@/api/financial/delete-financial';
 import { useMutation } from '@tanstack/react-query';
 import ConfirmDialog from '@/utils/confirmDialog';
 import { toast } from '@/utils/toast';
+import { updateFinancial } from '@/api/financial/update-financial';
 
 interface FinancialTableRowProps {
   item: Financial;
@@ -25,6 +27,25 @@ export const FinancialTableRow = ({ item, index }: FinancialTableRowProps) => {
       });
     },
   });
+
+  const { mutateAsync: updateFinancialFn } = useMutation({
+    mutationFn: updateFinancial,
+  });
+
+  const handleUpdate = async () => {
+    try {
+      await updateFinancialFn({
+        financialId: item.id,
+        paidOrRefunded: true,
+      } as any);
+      await queryClient.invalidateQueries({
+        queryKey: ['financial'],
+      });
+      toast('success', 'Registro financeiro atualizado com sucesso!');
+    } catch {
+      toast('error', 'Erro ao atualizar registro financeiro');
+    }
+  };
 
   const handleDelete = async (itemID: string) => {
     const result = await ConfirmDialog({
@@ -58,7 +79,7 @@ export const FinancialTableRow = ({ item, index }: FinancialTableRowProps) => {
   }).format(profitOrLoss);
 
   return (
-    <Table.Row isEven={isEven(index + 1)}>
+    <Table.Row isEven={isEven(index + 1)} isPending={!item.paidOrRefunded}>
       <Table.Col className="font-medium">{item.createdAt || '-'}</Table.Col>
       <Table.Col className="font-medium">{item.productType || '-'}</Table.Col>
       <Table.Col className="font-medium">{item.productName || '-'}</Table.Col>
@@ -92,6 +113,17 @@ export const FinancialTableRow = ({ item, index }: FinancialTableRowProps) => {
       <Table.Col className="font-medium">{item.clientNumber || '-'}</Table.Col>
       <Table.Col className="font-medium">
         {item.createdBy?.name || '-'}
+      </Table.Col>
+      <Table.Col>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={handleUpdate}
+          disabled={item.paidOrRefunded}
+        >
+          <Check className="mr-2 h-3 w-3" />
+          Pago
+        </Button>
       </Table.Col>
       <Table.Col>
         <Button

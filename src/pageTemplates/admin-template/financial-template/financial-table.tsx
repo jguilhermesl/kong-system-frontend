@@ -35,6 +35,7 @@ export const FinancialTable = () => {
             'Número do Cliente',
             'Responsável',
             '',
+            '',
           ]}
         >
           {financial?.map((item: Financial, index: number) => (

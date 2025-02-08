@@ -11,31 +11,24 @@ interface ITBodyRowProps {
     onChecked?: (rowId: string) => void;
   };
   onClick?: () => void;
+  isPending?: boolean;
 }
 
 const TBodyRowComponent = ({
   children,
   isEven,
   onSelectedRow,
+  isPending,
   onClick,
 }: ITBodyRowProps) => {
   return (
     <tr
       className={clsx('w-full', {
         'bg-gray-50 w-full': isEven,
+        'bg-orange-100': isPending,
       })}
       onClick={onClick}
     >
-      {/* {!!onSelectedRow?.onChecked && (
-        <Table.Col>
-          <Checkbox
-            onCheckedChange={() =>
-              !!onSelectedRow?.onChecked &&
-              onSelectedRow?.onChecked(onSelectedRow.rowId)
-            }
-          />
-        </Table.Col>
-      )} */}
       {children}
     </tr>
   );

@@ -23,7 +23,7 @@ export const EditableField = ({
         choices={[
           { value: 'PS4', label: 'PS4' },
           { value: 'PS5', label: 'PS5' },
-          { value: 'PS4/PS5', label: 'PS4/PS5' },
+          { value: 'PS4 E PS5', label: 'PS4 E PS5' },
         ]}
         value={values.gameVersion}
       />
