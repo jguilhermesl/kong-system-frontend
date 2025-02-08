@@ -88,6 +88,7 @@ export const NewExpenseTemplate = () => {
               { value: 'ACESSÓRIO', label: 'Acessório' },
               { value: 'INVESTIMENTO', label: 'Investimento' },
               { value: 'MEI', label: 'MEI' },
+              { value: 'DESPESA', label: 'DESPESA' },
             ]}
           />
 
