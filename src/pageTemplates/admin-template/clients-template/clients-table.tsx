@@ -3,11 +3,15 @@ import { ClientsTableRow } from './clients-table-row';
 import { useQuery } from '@tanstack/react-query';
 import { fetchClients } from '@/api/clients/fetch-clients';
 import { Spinner } from '@/components/ui/spinner';
+import { useSearchParams } from 'next/navigation';
 
 export const ClientsTable = () => {
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search') || '';
+
   const { data: clientsData, isPending } = useQuery({
-    queryFn: fetchClients,
-    queryKey: ['clients'],
+    queryFn: () => fetchClients({ search }),
+    queryKey: ['clients', search],
   });
 
   const clients = clientsData?.data || [];

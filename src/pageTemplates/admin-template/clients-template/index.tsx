@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ClientsTable } from './clients-table';
+import { ClientsTableFilters } from './clients-table-filters';
 
 export const AdminClientsTemplate = () => {
   const router = useRouter();
@@ -18,7 +19,8 @@ export const AdminClientsTemplate = () => {
         </Button>
       }
     >
-      <div>
+      <div className="flex flex-col gap-4">
+        <ClientsTableFilters />
         <ClientsTable />
       </div>
     </PrivateLayout>
