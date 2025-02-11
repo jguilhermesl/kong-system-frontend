@@ -42,6 +42,7 @@ export const CreateUserTemplate = () => {
       phone: formattedPhone,
       password: values.password,
       role: values.role as 'admin' | 'client',
+      isAdminAction: true,
     };
 
     try {

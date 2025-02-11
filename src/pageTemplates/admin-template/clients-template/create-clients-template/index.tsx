@@ -41,6 +41,7 @@ export const CreateClientTemplate = () => {
       phone: formattedPhone,
       console: values.console,
       role: 'client',
+      isAdminAction: true,
     };
 
     try {
@@ -52,6 +53,7 @@ export const CreateClientTemplate = () => {
       resetForm();
       router.push('/admin/clients');
     } catch (error: any) {
+      console.log('error ==> ', error);
       toast('error', error?.message || 'Erro ao criar o cliente.');
     }
   };
