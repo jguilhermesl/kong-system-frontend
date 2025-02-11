@@ -69,7 +69,9 @@ export const ClientIndicationsTemplate = () => {
               >
                 <div className="flex items-center gap-8">
                   <div className="bg-green-100 p-4 rounded-lg flex items-center justify-center">
-                    <Heading className="text-green-600">+90</Heading>
+                    <Heading className="text-green-600">
+                      +{indication?.points}
+                    </Heading>
                   </div>
                   <div>
                     <Paragraph className="font-semibold">Indicação</Paragraph>
