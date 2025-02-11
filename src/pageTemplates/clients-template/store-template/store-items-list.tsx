@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FetchStoreResponse } from '@/api/store/fetch-store';
 import { Button } from '@/components/ui/button';
 import { Carousel } from '@/components/ui/carousel';
@@ -28,12 +27,12 @@ export const StoreItemsList: React.FC<StoreItemsListProps> = ({ store }) => {
     <>
       <div className="flex flex-col gap-8">
         {store.map((category) => (
-          <div key={category.category} className="">
+          <div key={category?.category} className="">
             <Heading>Categoria {category.category}</Heading>
             <Carousel classNameItem="max-w-[200px]">
               {category.items.map((item) => (
                 <li key={item.id} className="w-[200px]">
-                  {item.photoUrl && (
+                  {item?.photoUrl && (
                     <Image
                       className="!w-full !h-[200px] object-cover rounded-lg shadow-sm"
                       src={item.photoUrl || ''}
