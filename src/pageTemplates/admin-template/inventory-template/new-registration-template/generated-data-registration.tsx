@@ -47,6 +47,7 @@ export const GeneratedDataRegistration = ({
         value={email}
         iconRight={
           <button
+            type="button"
             className="flex items-center justify-center"
             onClick={() => copyToClipboard(email)}
           >
@@ -63,6 +64,7 @@ export const GeneratedDataRegistration = ({
         value={psnPassword}
         iconRight={
           <button
+            type="button"
             className="flex items-center justify-center"
             onClick={() => copyToClipboard(psnPassword)}
           >
@@ -79,6 +81,7 @@ export const GeneratedDataRegistration = ({
         value={psnUser}
         iconRight={
           <button
+            type="button"
             className="flex items-center justify-center"
             onClick={() => copyToClipboard(psnUser)}
           >

@@ -5,7 +5,9 @@ const nextConfig = {
     domains: [
       'upload.wikimedia.org',
       'example.com',
-      'encrypted-tbn0.gstatic.com'
+      'encrypted-tbn0.gstatic.com',
+      'shared.fastly.steamstatic.com',
+      'image.api.playstation.com'
     ],
   },
 };

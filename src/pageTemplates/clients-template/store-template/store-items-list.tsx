@@ -26,13 +26,13 @@ export const StoreItemsList: React.FC<StoreItemsListProps> = ({ store }) => {
   return (
     <>
       <div className="flex flex-col gap-8">
-        {store.map((category) => (
-          <div key={category?.category} className="">
+        {store.map((category, index) => (
+          <div key={category?.category || index} className="">
             <Heading>Categoria {category.category}</Heading>
             <Carousel classNameItem="max-w-[200px]">
               {category.items.map((item) => (
                 <li key={item.id} className="w-[200px]">
-                  {item?.photoUrl && (
+                  {item.photoUrl && (
                     <Image
                       className="!w-full !h-[200px] object-cover rounded-lg shadow-sm"
                       src={item.photoUrl || ''}
