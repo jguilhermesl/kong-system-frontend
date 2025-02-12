@@ -1,4 +1,4 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "@/services/api";
 
 interface AddInventoryRequest {
@@ -8,20 +8,17 @@ interface AddInventoryRequest {
   psnPassword: string;
   psnUser?: string;
   gameVersion: "PS4" | "PS5" | "PS4 E PS5";
-  gameValue: string;
-  purchaseValue: string;
-  primaryValue: string;
-  secondaryValue: string;
+  gameValue: number;
+  purchaseValue: number;
+  primaryValue: number;
+  secondaryValue: number;
 }
 
 export const addInventory = async (data: AddInventoryRequest) => {
   try {
     const response = await api.post("/inventory", data);
     return response.data;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-    throw new Error("An unexpected error occurred");
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || error?.message);
   }
 };

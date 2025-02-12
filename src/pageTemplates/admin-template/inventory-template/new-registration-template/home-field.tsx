@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useState } from 'react';
 import { GeneratedDataRegistration } from './generated-data-registration';
@@ -10,6 +11,7 @@ import { queryClient } from '@/services/react-query';
 import { toast } from '@/utils/toast';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '@/components/ui/spinner';
+import { convertRealToNumber } from '@/utils/convert-real-to-number';
 
 export const HomeField = ({}) => {
   const [email, setEmail] = useState('');
@@ -26,18 +28,19 @@ export const HomeField = ({}) => {
         psnPassword: psnPassword,
         psnUser: psnUser,
         gameVersion: values.gameVersion as 'PS4' | 'PS5' | 'PS4 E PS5',
-        gameValue: values.gameValue,
-        purchaseValue: values.purchaseValue,
-        primaryValue: values.valuePrimary,
-        secondaryValue: values.valueSecondary,
+        gameValue: convertRealToNumber(values.gameValue) || 0,
+        purchaseValue: convertRealToNumber(values.purchaseValue) || 0,
+        primaryValue: convertRealToNumber(values.valuePrimary) || 0,
+        secondaryValue: convertRealToNumber(values.valueSecondary) || 0,
       });
       toast('success', 'Estoque adicionado com sucesso!');
       queryClient.invalidateQueries({
         queryKey: ['inventory'],
       });
       router.push('/admin/inventory');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding inventory:', error);
+      toast('error', error.mesage || 'Algo deu errado.');
     }
   };
 
