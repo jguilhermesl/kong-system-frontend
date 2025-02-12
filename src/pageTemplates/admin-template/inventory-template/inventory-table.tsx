@@ -31,6 +31,7 @@ export const InventoryTable = () => {
         <div className="border rounded-md w-full">
           <Table
             headers={[
+              '',
               'Id',
               'Nome Jogo',
               'Tipo de Conta',
@@ -38,8 +39,6 @@ export const InventoryTable = () => {
               'Versão',
               'Foi vendido',
               'E-mail',
-              '',
-              '',
             ]}
           >
             {inventory?.map((item, i) => (

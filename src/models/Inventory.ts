@@ -17,5 +17,6 @@ export interface InventoryItem {
   accountValue: number,
   sold: "TRUE" | "FALSE",
   client?: User,
-  soldBy?: string
+  soldBy?: string,
+  connectedAccounts?: InventoryItem[]
 }

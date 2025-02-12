@@ -8,7 +8,8 @@ import { Paragraph } from '@/components/ui/paragraph';
 import { Spinner } from '@/components/ui/spinner';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { Mail, KeyRound, CircleDollarSign } from 'lucide-react';
+import { DetailInfo } from './detail-info';
+import { ConnectedAccounts } from './connected-accounts';
 
 export const InventoryDetailTemplate = () => {
   const router = useRouter();
@@ -41,65 +42,85 @@ export const InventoryDetailTemplate = () => {
       ) : (
         <div className="p-6 bg-white flex flex-col gap-2 shadow-md rounded-lg">
           <Heading className="text-2xl font-bold mb-2">
+            Detalhes do estoque do jogo -{' '}
             {dataInventoryDetail?.data?.game || 'Jogo não especificado'}
           </Heading>
-          <div className="flex gap-2">
-            <Mail size={18} />
-            <Paragraph>
-              Email: {dataInventoryDetail?.data?.email || 'Não informado'}
-            </Paragraph>
-          </div>
-          <div className="flex gap-2">
-            <KeyRound size={18} />
-            <Paragraph>
-              Senha PSN:
-              {dataInventoryDetail?.data?.psnPassword || 'Não informada'}
-            </Paragraph>
-          </div>
-          <div className="flex gap-2">
-            <CircleDollarSign size={18} />
-            <Paragraph>
-              Valor de compra: R${' '}
-              {dataInventoryDetail?.data?.purchaseValue || '0,00'}
-            </Paragraph>{' '}
-          </div>
-          <div className="flex gap-2">
-            {' '}
-            <CircleDollarSign size={18} />
-            <Paragraph>
-              Valor do jogo: R$ {dataInventoryDetail?.data?.gameValue || '0,00'}
-            </Paragraph>{' '}
-          </div>
-          <div className="flex gap-2">
-            {' '}
-            <CircleDollarSign size={18} />
-            <Paragraph>
-              Valor da conta: R${' '}
-              {dataInventoryDetail?.data?.accountValue || '0,00'}
-            </Paragraph>{' '}
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center gap-8">
+              <DetailInfo
+                label="E-mail"
+                description={
+                  dataInventoryDetail?.data?.email || 'Não informado'
+                }
+              />
+              <DetailInfo
+                label="Senha PSN"
+                description={
+                  dataInventoryDetail?.data?.psnPassword || 'Não informado'
+                }
+              />
+              <DetailInfo
+                label="Versão do Jogo / Tipo de Conta"
+                description={`${dataInventoryDetail?.data?.gameVersion} / ${dataInventoryDetail?.data?.accountType}`}
+              />
+            </div>
+            <div className="flex items-center gap-8">
+              <DetailInfo
+                label="Valor de compra"
+                description={
+                  dataInventoryDetail?.data?.purchaseValue.toString() || '0,00'
+                }
+              />
+              <DetailInfo
+                label="Valor do jogo"
+                description={
+                  dataInventoryDetail?.data?.gameValue.toString() || '0,00'
+                }
+              />
+              <DetailInfo
+                label="Valor de venda"
+                description={
+                  dataInventoryDetail?.data?.accountValue.toString() || '0,00'
+                }
+              />
+            </div>
           </div>
 
           {dataInventoryDetail?.data.client && (
             <div className="mt-4 p-4 bg-gray-100 rounded-lg">
-              <h2 className="text-lg font-semibold">Dados do Cliente</h2>
-              <Paragraph>
-                📛 Nome:{' '}
-                {dataInventoryDetail?.data?.client?.name || 'Não informado'}
-              </Paragraph>
-              <Paragraph>
-                📞 Telefone:{' '}
-                {dataInventoryDetail?.data?.client?.phone || 'Não informado'}
-              </Paragraph>
-              <Paragraph>
-                📧 Email:{' '}
-                {dataInventoryDetail?.data?.client?.email || 'Não informado'}
-              </Paragraph>
-              <Paragraph>
-                🎮 Console:{' '}
-                {dataInventoryDetail?.data?.client?.console || 'Não informado'}
-              </Paragraph>
+              <div>
+                <Heading className="text-lg font-semibold">Cliente</Heading>
+                <Paragraph>
+                  Visualize os dados do cliente responsável pela compra
+                </Paragraph>
+              </div>
+              <div className="mt-4 flex flex-col gap-2">
+                <Paragraph>
+                  📛 Nome:{' '}
+                  {dataInventoryDetail?.data?.client?.name || 'Não informado'}
+                </Paragraph>
+                <Paragraph>
+                  📞 Telefone:{' '}
+                  {dataInventoryDetail?.data?.client?.phone || 'Não informado'}
+                </Paragraph>
+                <Paragraph>
+                  📧 Email:{' '}
+                  {dataInventoryDetail?.data?.client?.email || 'Não informado'}
+                </Paragraph>
+                <Paragraph>
+                  🎮 Console:{' '}
+                  {dataInventoryDetail?.data?.client?.console ||
+                    'Não informado'}
+                </Paragraph>
+              </div>
             </div>
           )}
+
+          <ConnectedAccounts
+            connectedAccounts={
+              dataInventoryDetail?.data.connectedAccounts || []
+            }
+          />
         </div>
       )}
     </PrivateLayout>
