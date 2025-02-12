@@ -2,15 +2,28 @@ import { Button } from '@/components/ui/button';
 import { Table } from '@/components/ui/table';
 import { InventoryItem } from '@/models/Inventory';
 import { isEven } from '@/utils/is-even';
-import { CheckCircle, Edit, Trash, XCircle } from 'lucide-react';
+import { CheckCircle, ChevronRight, XCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface InventoryTableRowProps {
   item: InventoryItem;
   index: number;
 }
 export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
+  const router = useRouter();
+
   return (
     <Table.Row isEven={isEven(index + 1)}>
+      <Table.Col>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => router.push(`inventory/${item.id}`)}
+        >
+          <ChevronRight className="mr-2 h-3 w-3" />
+          Acessar
+        </Button>
+      </Table.Col>
       <Table.Col className="font-medium max-w-[100px] truncate">
         {item.id}
       </Table.Col>
@@ -35,18 +48,6 @@ export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
         )}
       </Table.Col>
       <Table.Col className="font-medium">{item.email}</Table.Col>
-      <Table.Col>
-        <Button variant="outline" size="sm" onClick={() => {}}>
-          <Edit className="mr-2 h-3 w-3" />
-          Editar
-        </Button>
-      </Table.Col>
-      <Table.Col>
-        <Button variant="ghost" size="sm">
-          <Trash className="mr-2 h-3 w-3" />
-          Deletar
-        </Button>
-      </Table.Col>
     </Table.Row>
   );
 };
