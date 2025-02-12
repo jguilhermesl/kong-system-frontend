@@ -29,20 +29,19 @@ export const InventoryDetailTemplate = () => {
         <Button onClick={() => router.push('/admin/inventory')}> Voltar</Button>
       }
     >
-      {isLoading && (
+      {isLoading ? (
         <div className="flex justify-center items-center h-40">
           <Spinner />
         </div>
-      )}
-      {!isLoading && !dataInventoryDetail ? (
+      ) : !isLoading && !dataInventoryDetail ? (
         <EmptyState
           title="Não foi possível acessar esse jogo"
           description="Volte para a tela de estoque e tente acessar novamente."
         />
       ) : (
-        <div className="p-6 bg-white flex flex-col gap-2 shadow-md rounded-lg">
+        <div className="flex flex-col gap-2 ">
           <Heading className="text-2xl font-bold mb-2">
-            Detalhes do estoque do jogo -{' '}
+            {dataInventoryDetail?.data?.id} |{' '}
             {dataInventoryDetail?.data?.game || 'Jogo não especificado'}
           </Heading>
           <div className="flex flex-col gap-6">
