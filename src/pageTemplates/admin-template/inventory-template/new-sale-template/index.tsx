@@ -47,7 +47,7 @@ export const NewSaleTemplate = () => {
   });
 
   const { data: clientsData } = useQuery({
-    queryFn: fetchClients,
+    queryFn: () => fetchClients({}),
     queryKey: ['clients'],
   });
 

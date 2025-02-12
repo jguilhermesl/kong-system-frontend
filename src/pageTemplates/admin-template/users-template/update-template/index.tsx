@@ -36,7 +36,7 @@ export const UpdateUserTemplate = () => {
     queryKey: ['users'],
   });
   const { data: clientsData } = useQuery({
-    queryFn: fetchClients,
+    queryFn: () => fetchClients({}),
     queryKey: ['clients'],
   });
 
