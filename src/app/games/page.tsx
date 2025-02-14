@@ -40,7 +40,7 @@ const GamesPage = () => {
           A MELHOR LOJA DE JOGOS - KONG GAMES
         </h2>
         <p className="text-center text-lg text-gray-600 mb-6">
-          Promoção válida até 12/02/2025
+          Promoção válida até 26/02/2025
         </p>
         <Input
           placeholder="Pesquise o jogo"
