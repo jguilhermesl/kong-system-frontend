@@ -89,7 +89,7 @@ export const LoginTemplate = () => {
         </form>
         <Link
           className="mt-2 sm:flex hover:underline py-2 px-4 rounded-lg "
-          href={'/forgot'}
+          href={'/forgot-password'}
         >
           <p className="font-bold text-sm">Esqueci senha</p>
         </Link>

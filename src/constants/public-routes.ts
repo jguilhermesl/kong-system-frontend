@@ -1,1 +1,1 @@
-export const PUBLIC_ROUTES = ['/', '/sign-up', '/games']
+export const PUBLIC_ROUTES = ['/', '/sign-up', '/games', '/forgot-password']
