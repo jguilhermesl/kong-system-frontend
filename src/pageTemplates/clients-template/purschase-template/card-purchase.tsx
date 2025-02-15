@@ -19,7 +19,7 @@ interface CardProps {
 export const CardPurchase = ({ data }: CardProps) => {
   return (
     <div className="py-4 px-6 mb-6 flex sm:flex-row flex-col justify-between rounded-xl shadow-md border-border border">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4 lg:gap-2">
         <Paragraph className="text-lg font-bold mb-4">{data.game}</Paragraph>
         <InfoPurchase label="Versão do jogo" value={data.gameVersion} />
         <InfoPurchase label="Tipo de conta" value={data.accountType} />
