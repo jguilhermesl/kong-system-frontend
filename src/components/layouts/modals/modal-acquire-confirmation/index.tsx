@@ -10,6 +10,7 @@ import { Store } from '@/models/Store';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { requestGame } from '@/api/store/request-game';
+import { Spinner } from '@/components/ui/spinner';
 
 interface IModalPurchaseConfirmationProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -22,7 +23,7 @@ export const ModalAcquireConfirmationDialog = ({
   modalIsOpen,
   game,
 }: IModalPurchaseConfirmationProps) => {
-  const { mutateAsync: requestGameFn } = useMutation({
+  const { mutateAsync: requestGameFn, isPending } = useMutation({
     mutationFn: requestGame,
   });
 
@@ -62,13 +63,20 @@ export const ModalAcquireConfirmationDialog = ({
           >
             Cancelar
           </Button>
+
           <Button
             className="w-full"
             type="button"
             variant="default"
             onClick={() => handleRequestGame(game.id)}
           >
-            Prosseguir
+            {isPending ? (
+              <div className="flex items-center justify-center w-full">
+                <Spinner />
+              </div>
+            ) : (
+              'Prosseguir'
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

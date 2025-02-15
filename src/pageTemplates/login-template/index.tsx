@@ -41,8 +41,17 @@ export const LoginTemplate = () => {
       <div className="w-full md:w-[50%] bg-primary p-9 flex flex-col ">
         <Heading className="!text-white text-2xl">Kong Games</Heading>
       </div>
-      <div className="w-full md:w-[50%] flex flex-col items-center md:mt-2 mt-5 justify-center px-7 md:px-20 relative">
+
+      <div className="w-full md:w-[50%] flex flex-col items-center md:mt-2 mt-8 justify-center px-7 md:px-20 relative">
         <h1 className="text-3xl font-semibold text-black mb-2">Fazer Login</h1>
+        <Link
+          className="mt-2  hidden lg:flex absolute top-6 right-6 hover:underline py-2 px-4 rounded-lg"
+          href={'/sign-up'}
+        >
+          <p className="font-bold text-primary text-sm">
+            Não tem login? Cadastre-se
+          </p>
+        </Link>
         <p className="text-sm text-default-grey !font-poppins">
           Insira seu e-mail e senha abaixo para fazer login
         </p>
@@ -80,9 +89,17 @@ export const LoginTemplate = () => {
         </form>
         <Link
           className="mt-2 sm:flex hover:underline py-2 px-4 rounded-lg "
+          href={'/forgot-password'}
+        >
+          <p className="font-bold text-sm">Esqueci senha</p>
+        </Link>
+        <Link
+          className="flex sm:hidden hover:underline py-2 px-4 rounded-lg"
           href={'/sign-up'}
         >
-          <p className="font-bold text-sm">Não tem login? Cadastre-se</p>
+          <p className="font-bold text-primary text-sm">
+            Não tem login? Cadastre-se
+          </p>
         </Link>
       </div>
     </div>
