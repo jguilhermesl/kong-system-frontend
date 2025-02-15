@@ -1,0 +1,1 @@
+export const NEUTRAL_ROUTES = ['/games']

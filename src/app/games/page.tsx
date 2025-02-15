@@ -1,33 +1,66 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
+import React, { useState, useEffect } from 'react';
 import { fetchGames } from '@/api/games/fetch-games';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { useDebounce } from '@/hooks/useDebounce';
 import { flexibleSearch } from '@/utils/flexible-search';
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+
+interface Game {
+  id: string;
+  game: string;
+  imageLink: string;
+  gameVersion: string;
+  primaryValue: string;
+  secondaryValue: string;
+  inPromo: string;
+}
 
 const GamesPage = () => {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
 
-  const { data, isPending } = useQuery({
-    queryKey: ['games'],
-    queryFn: fetchGames,
-  });
+  const [games, setGames] = useState<Game[]>([]);
+  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const games =
-    data?.data
-      .filter((g) => g.inPromo === 'TRUE')
-      .sort((a, b) => a.game.localeCompare(b.game)) || [];
+  // Carrega os jogos ao montar o componente
+  useEffect(() => {
+    const loadGames = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchGames();
+        // Supondo que a resposta possua a propriedade "data" com os jogos
+        const allGames: Game[] = response.data;
+        const promoGames = allGames
+          .filter((g) => g.inPromo === 'TRUE')
+          .sort((a, b) => a.game.localeCompare(b.game));
 
-  const filteredGames = debouncedSearch
-    ? games.filter((game: any) =>
-        flexibleSearch(debouncedSearch as string, game.game)
-      )
-    : games;
+        setGames(promoGames);
+        setFilteredGames(promoGames);
+      } catch (error) {
+        console.error('Erro ao carregar jogos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGames();
+  }, []);
+
+  // Atualiza os jogos filtrados com base no termo de busca
+  useEffect(() => {
+    if (debouncedSearch) {
+      setFilteredGames(
+        games.filter((game) =>
+          flexibleSearch(debouncedSearch as string, game.game)
+        )
+      );
+    } else {
+      setFilteredGames(games);
+    }
+  }, [debouncedSearch, games]);
 
   return (
     <div className="w-full mx-auto">
@@ -35,7 +68,6 @@ const GamesPage = () => {
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Lista de Jogos
         </h1>
-
         <h2 className="text-2xl font-semibold text-center text-primary mb-4">
           A MELHOR LOJA DE JOGOS - KONG GAMES
         </h2>
@@ -48,22 +80,22 @@ const GamesPage = () => {
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-[700px] mx-auto"
         />
-        {isPending ? (
+        {loading ? (
           <div className="flex items-center justify-center w-full mt-8">
             <Spinner />
           </div>
         ) : (
           <ul className="flex flex-wrap justify-center gap-8 mt-8">
-            {filteredGames?.map((game) => (
+            {filteredGames.map((game, idx) => (
               <li
-                key={game.id}
-                className=" max-w-[150px] flex flex-col items-center gap-4"
+                key={idx}
+                className="max-w-[150px] flex flex-col items-center gap-4"
               >
                 <img
                   src={game.imageLink}
                   alt={game.game}
-                  className="w-full max-h-[50%] object-cover rounded-md "
-                  loading="lazy" // Implementa o lazy loading
+                  className="w-full max-h-[50%] object-cover rounded-md"
+                  loading="lazy"
                 />
                 <div className="w-full">
                   <p className="font-bold text-primary text-[10px]">
