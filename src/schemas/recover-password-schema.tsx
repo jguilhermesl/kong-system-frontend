@@ -7,7 +7,5 @@ export const recoverPasswordSchema = Yup.object({
   code: Yup.string()
     .matches(/^\d{4}$/, 'O código deve ter exatamente 4 dígitos')
     .required('O código é obrigatório'),
-  password: Yup.string()
-    .matches(/^.{6}$/, 'A senha deve ter exatamente 6 caracteres')
-    .required('A senha é obrigatória'),
+  password: Yup.string().required('A senha é obrigatória'),
 });

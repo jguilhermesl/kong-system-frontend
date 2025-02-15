@@ -10,7 +10,7 @@ export const ForgotPasswordTemplate = () => {
   const [emailIsFilled, setEmailIsFilled] = useState(false);
   const [email, setEmail] = useState('');
 
-  const handleSucces = (email: string) => {
+  const handleSuccess = (email: string) => {
     setEmail(email);
     setEmailIsFilled(true);
   };
@@ -35,7 +35,7 @@ export const ForgotPasswordTemplate = () => {
           Insira seu e-mail, receba o código e recupere sua senha.
         </p>
         {!emailIsFilled ? (
-          <ForgotPassword onSuccess={handleSucces} />
+          <ForgotPassword onSuccess={handleSuccess} />
         ) : (
           <RecoverPassword email={email} />
         )}

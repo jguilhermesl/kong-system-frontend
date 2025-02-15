@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React from 'react';
 import { useFormik } from 'formik';
-
 import { forgotPassword } from '@/api/password/forgot-password';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from '@/utils/toast';
@@ -30,7 +30,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({
       );
       onSuccess(values.email);
     } catch (err: any) {
-      toast('error', 'Algo deu errado.');
+      toast('error', err?.message || 'Algo deu errado.');
     }
   };
 

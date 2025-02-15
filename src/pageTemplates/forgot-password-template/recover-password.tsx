@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
 import { FormInputField } from '@/components/form-input-field';
 import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
@@ -9,12 +9,14 @@ import { recoverPasswordSchema } from '@/schemas/recover-password-schema';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { recoverPassword } from '@/api/password/recover-password';
+import { FormPasswordField } from '@/components/form-password-field';
 
 export const RecoverPassword = ({ email }: { email: string }) => {
   const { mutateAsync: recoverPasswordFn } = useMutation({
     mutationFn: recoverPassword,
   });
   const router = useRouter();
+
   const handleRecoverPassword = async (values: {
     email: string;
     code: string;
@@ -29,7 +31,7 @@ export const RecoverPassword = ({ email }: { email: string }) => {
       router.push('/');
       toast('success', 'Senha recuperada com sucesso!');
     } catch (err: any) {
-      toast('error', 'Algo deu errado.');
+      toast('error', err?.message || 'Algo deu errado.');
     }
   };
 
@@ -75,15 +77,13 @@ export const RecoverPassword = ({ email }: { email: string }) => {
           error={touched.code ? errors.code : undefined}
         />
 
-        <FormInputField
+        <FormPasswordField
           {...getFieldProps('password')}
-          maxLength={6}
           onChange={(e) => setFieldValue('password', e.target.value)}
           label="Senha"
-          type="password"
-          placeholder="Digite sua nova senha"
+          placeholder="Digite sua senha"
           className="w-full"
-          error={touched.password ? errors.password : undefined}
+          error={errors.password}
         />
 
         <Button
