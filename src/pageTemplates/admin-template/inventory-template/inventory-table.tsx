@@ -39,6 +39,8 @@ export const InventoryTable = () => {
               'Versão',
               'Foi vendido',
               'E-mail',
+              'Cliente',
+              'Console do Cliente',
             ]}
           >
             {inventory?.map((item, i) => (

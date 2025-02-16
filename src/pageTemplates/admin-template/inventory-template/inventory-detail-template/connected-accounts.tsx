@@ -27,6 +27,8 @@ export const ConnectedAccounts = ({
           'Versão',
           'Foi vendido',
           'E-mail',
+          'Cliente',
+          'Console do Cliente',
         ]}
       >
         {connectedAccounts?.map((item, i) => (

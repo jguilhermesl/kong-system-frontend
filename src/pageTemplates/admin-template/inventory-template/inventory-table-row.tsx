@@ -18,7 +18,7 @@ export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => router.push(`inventory/${item.id}`)}
+          onClick={() => router.replace(`/admin/inventory/${item.id}`)}
         >
           <ChevronRight className="mr-2 h-3 w-3" />
           Acessar
@@ -48,6 +48,10 @@ export const InventoryTableRow = ({ item, index }: InventoryTableRowProps) => {
         )}
       </Table.Col>
       <Table.Col className="font-medium">{item.email}</Table.Col>
+      <Table.Col className="font-medium">{item.client?.name || '-'}</Table.Col>
+      <Table.Col className="font-medium">
+        {item.client?.console || '-'}
+      </Table.Col>
     </Table.Row>
   );
 };
