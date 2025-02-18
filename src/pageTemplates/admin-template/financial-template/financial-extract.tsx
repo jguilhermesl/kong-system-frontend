@@ -1,38 +1,41 @@
+import { FetchFinancialResponse } from '@/api/financial/fetch-financial';
 import { FinancialCard } from './financial-card';
-import {
-  BadgeDollarSign,
-  CalendarDays,
-  Gamepad2,
-  PiggyBank,
-} from 'lucide-react';
+import { BadgeDollarSign, Gamepad2, PiggyBank } from 'lucide-react';
+import { formatPrice } from '@/utils/format-price';
+import { MonthlyRevenueChart } from './month-revenue-chart';
 
-export const FinancialExtract = () => {
+interface FinancialExtractProps {
+  metrics?: FetchFinancialResponse['metrics'];
+}
+
+export const FinancialExtract = ({ metrics }: FinancialExtractProps) => {
   return (
-    <div className="flex flex-wrap gap-4 w-full justify-center lg:justify-start">
-      <FinancialCard
-        value="32"
-        title="Vendas nos últimos 7 dias"
-        description=" + 5 vendas em relação a semana passada "
-        icon={<BadgeDollarSign size={20} />}
-        type="positive"
-      />
-      <FinancialCard
-        value="78"
-        title="Vendas no mês"
-        description="-20 vendas em relação ao mês passado"
-        icon={<CalendarDays size={20} />}
-        type="negative"
-      />
-      <FinancialCard
-        value="2.000"
-        title="Faturamento Total"
-        icon={<PiggyBank size={20} />}
-      />
-      <FinancialCard
-        value="3.124"
-        title="Valor em estoque"
-        icon={<Gamepad2 size={20} />}
-      />
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap gap-4 w-full justify-center lg:justify-start">
+        <FinancialCard
+          value={formatPrice(metrics?.weeklySalesRevenue || '')}
+          title="Faturamento semanal"
+          description={`Total de ${metrics?.weeklySalesCount} vendas na semana`}
+          icon={<BadgeDollarSign size={20} />}
+          type="positive"
+        />
+        <FinancialCard
+          value={formatPrice(metrics?.totalRevenue || '')}
+          title="Faturamento Total"
+          icon={<PiggyBank size={20} />}
+        />
+        <FinancialCard
+          value={formatPrice(metrics?.totalProfit || '')}
+          title="Lucro Total"
+          icon={<PiggyBank size={20} />}
+        />
+        <FinancialCard
+          value={formatPrice(metrics?.pendingPaymentValue || '')}
+          title="Pagamentos pendentes"
+          icon={<Gamepad2 size={20} />}
+        />
+      </div>
+      <MonthlyRevenueChart metrics={metrics} />
     </div>
   );
 };
