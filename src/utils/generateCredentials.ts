@@ -1,3 +1,4 @@
+
 export const generateEmail = (game: string): string => {
   const letters = game.replace(/[^a-zA-Z]/g, '').toLowerCase(); // Remove espaços e números
   const shuffled = letters.split('').sort(() => 0.5 - Math.random()).join(''); // Embaralha as letras
@@ -7,16 +8,28 @@ export const generateEmail = (game: string): string => {
   return `konggamesofc+${gamePart}${randomNumber}@gmail.com`;
 };
 
+const getRandomElement = (arr: string[]): string => arr[Math.floor(Math.random() * arr.length)];
 
 export const generatePsnCredentials = (game: string): { psnPassword: string; psnUser: string } => {
-  const letters = game.replace(/[^a-zA-Z]/g, '').toLowerCase(); // Remove espaços e números
-  const shuffled = letters.split('').sort(() => 0.5 - Math.random()).join(''); // Embaralha as letras
-  const gamePart = shuffled.slice(0, 6);
-  const randomPasswordNumber = Math.floor(100 + Math.random() * 900);
-  const randomUserNumber = Math.floor(100 + Math.random() * 900);
+  const letters = game.replace(/[^a-zA-Z]/g, '').toLowerCase();
 
-  const psnPassword = `${gamePart}${randomPasswordNumber}`.slice(0, 9); // Garante máximo de 8 caracteres
-  const psnUser = `${gamePart}${randomUserNumber}`.slice(0, 8); // Garante máximo de 8 caracteres
+  const passwordLettersCount = 4;
+  const passwordDigitsCount = 8 - passwordLettersCount;
+  const psnPasswordLetters = letters.slice(0, passwordLettersCount);
+  const psnPasswordDigits = Math.floor(Math.random() * Math.pow(10, passwordDigitsCount))
+    .toString()
+    .padStart(passwordDigitsCount, '0');
+  const psnPassword = (psnPasswordLetters + psnPasswordDigits).slice(0, 8);
+
+  const suffixOptions = ["pro", "bra", "mis", "game"];
+  const suffix = getRandomElement(suffixOptions);
+  const userLettersCount = 4;
+  const psnUserLetters = letters.slice(0, userLettersCount);
+  const userDigitsCount = 11 - (userLettersCount + suffix.length);
+  const psnUserDigits = Math.floor(Math.random() * Math.pow(10, userDigitsCount))
+    .toString()
+    .padStart(userDigitsCount, '0');
+  const psnUser = (psnUserLetters + suffix + psnUserDigits).slice(0, 11);
 
   return { psnPassword, psnUser };
 };

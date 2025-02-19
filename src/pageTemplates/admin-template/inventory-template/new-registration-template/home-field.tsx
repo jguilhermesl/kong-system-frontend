@@ -12,6 +12,7 @@ import { toast } from '@/utils/toast';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '@/components/ui/spinner';
 import { convertRealToNumber } from '@/utils/convert-real-to-number';
+import { addInventorySchema } from '@/schemas/add-new-inventory-schema';
 
 export const HomeField = ({}) => {
   const [email, setEmail] = useState('');
@@ -33,10 +34,10 @@ export const HomeField = ({}) => {
         primaryValue: convertRealToNumber(values.valuePrimary) || 0,
         secondaryValue: convertRealToNumber(values.valueSecondary) || 0,
       });
-      toast('success', 'Estoque adicionado com sucesso!');
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ['inventory'],
       });
+      toast('success', 'Estoque adicionado com sucesso!');
       router.push('/admin/inventory');
     } catch (error: any) {
       console.error('Error adding inventory:', error);
@@ -44,22 +45,27 @@ export const HomeField = ({}) => {
     }
   };
 
-  const { setFieldValue, getFieldProps, values, handleSubmit, isSubmitting } =
-    useFormik({
-      initialValues: {
-        name: '',
-        email: '',
-        psnPassword: '',
-        psnUser: '',
-        gameValue: '',
-        purchaseValue: '',
-        valuePrimary: '',
-        valueSecondary: '',
-        purchaseResponsible: '',
-        gameVersion: '',
-      },
-      onSubmit: handleAddInventory,
-    });
+  const {
+    setFieldValue,
+    getFieldProps,
+    values,
+    handleSubmit,
+    isSubmitting,
+    isValid,
+  } = useFormik({
+    initialValues: {
+      name: '',
+      gameValue: '',
+      purchaseValue: '',
+      valuePrimary: '',
+      valueSecondary: '',
+      gameVersion: '',
+    },
+    validateOnChange: true,
+    validationSchema: addInventorySchema,
+    isInitialValid: false,
+    onSubmit: handleAddInventory,
+  });
 
   return (
     <div className="flex items-center justify-center w-full">
@@ -94,7 +100,7 @@ export const HomeField = ({}) => {
               />
             </>
           )}
-          <Button>Adicionar</Button>
+          <Button disabled={!isValid}>Adicionar</Button>
         </form>
       )}
     </div>
