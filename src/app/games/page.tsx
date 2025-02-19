@@ -34,7 +34,7 @@ const GamesPage = () => {
         // Supondo que a resposta possua a propriedade "data" com os jogos
         const allGames: Game[] = response.data;
         const promoGames = allGames
-          .filter((g) => g.inPromo === 'TRUE')
+          .filter((g) => g.inPromo)
           .sort((a, b) => a.game.localeCompare(b.game));
 
         setGames(promoGames);
@@ -61,6 +61,8 @@ const GamesPage = () => {
       setFilteredGames(games);
     }
   }, [debouncedSearch, games]);
+
+  console.log('filteredGames: ', filteredGames);
 
   return (
     <div className="w-full mx-auto">
