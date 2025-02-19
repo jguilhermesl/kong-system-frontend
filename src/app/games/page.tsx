@@ -30,7 +30,7 @@ const GamesPage = () => {
     const loadGames = async () => {
       setLoading(true);
       try {
-        const response = await fetchGames();
+        const response = await fetchGames({});
         // Supondo que a resposta possua a propriedade "data" com os jogos
         const allGames: Game[] = response.data;
         const promoGames = allGames

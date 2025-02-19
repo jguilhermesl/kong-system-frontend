@@ -33,7 +33,7 @@ export const ClientDetailTemplate = () => {
 
   return (
     <PrivateLayout
-      title="Detalhes do cliente"
+      title={`Detalhes do cliente `}
       actionsComponent={
         <Button onClick={() => router.push('/admin/clients')}>Voltar</Button>
       }
