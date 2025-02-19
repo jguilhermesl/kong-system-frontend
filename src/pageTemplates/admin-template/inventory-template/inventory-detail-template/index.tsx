@@ -8,7 +8,7 @@ import { Paragraph } from '@/components/ui/paragraph';
 import { Spinner } from '@/components/ui/spinner';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { DetailInfo } from './detail-info';
+import { DetailInfo } from '../../../../components/detail-info';
 import { ConnectedAccounts } from './connected-accounts';
 
 export const InventoryDetailTemplate = () => {

@@ -7,7 +7,7 @@ import ConfirmDialog from '@/utils/confirmDialog';
 import { isEven } from '@/utils/is-even';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
-import { Edit, Trash } from 'lucide-react';
+import { ChevronRight, Edit, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface ClientsTableRowProps {
@@ -45,6 +45,16 @@ export const ClientsTableRow = ({ item, index }: ClientsTableRowProps) => {
 
   return (
     <Table.Row isEven={isEven(index + 1)}>
+      <Table.Col>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => router.replace(`/admin/clients/${item.id}`)}
+        >
+          <ChevronRight className="mr-2 h-3 w-3" />
+          Acessar
+        </Button>
+      </Table.Col>
       <Table.Col className="font-medium">{item.name}</Table.Col>
       <Table.Col className="font-medium">{item.phone}</Table.Col>
       <Table.Col>
