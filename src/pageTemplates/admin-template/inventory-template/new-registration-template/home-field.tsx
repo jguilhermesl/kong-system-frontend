@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { GeneratedDataRegistration } from './generated-data-registration';
-import { FormInputField } from '@/components/form-input-field';
 import { Button } from '@/components/ui/button';
 import { EditableField } from './editable-fields';
 import { useFormik } from 'formik';
@@ -13,11 +12,18 @@ import { useRouter } from 'next/navigation';
 import { Spinner } from '@/components/ui/spinner';
 import { convertRealToNumber } from '@/utils/convert-real-to-number';
 import { addInventorySchema } from '@/schemas/add-new-inventory-schema';
+import { fetchGames } from '@/api/games/fetch-games';
+import { useQuery } from '@tanstack/react-query';
+import { flexibleSearch } from '@/utils/flexible-search';
+import { Game } from '@/models/Game';
+import { FormAutoCompleteField } from '@/components/form-auto-complete-field';
 
 export const HomeField = ({}) => {
   const [email, setEmail] = useState('');
   const [psnPassword, setPsnPassword] = useState('');
   const [psnUser, setPsnUser] = useState('');
+  const [gamesSuggestions, setGamesSuggestions] = useState<Game[]>([]);
+  const [gamesAutoCompleteValue, setGamesAutoCompleteValue] = useState('');
   const router = useRouter();
 
   const handleAddInventory = async () => {
@@ -67,19 +73,52 @@ export const HomeField = ({}) => {
     onSubmit: handleAddInventory,
   });
 
+  const { data: gamesData } = useQuery({
+    queryFn: () => fetchGames({}),
+    queryKey: ['games'],
+  });
+
+  const handleGetGamesItems = useCallback(
+    async (searchValue: string) => {
+      const games = gamesData?.data || [];
+      const lowercaseQuery = searchValue.toLowerCase();
+
+      const gamesFiltered =
+        games?.filter((i) => {
+          const lowercaseName = i.game.toLowerCase();
+
+          return flexibleSearch(lowercaseQuery, lowercaseName);
+        }) || [];
+
+      setGamesSuggestions(gamesFiltered as Game[]);
+    },
+    [gamesData?.data]
+  );
+
+  const handleChangeGame = (gameId: string) => {
+    const gameSelected = gamesData?.data.find((g) => g.id === gameId);
+
+    setFieldValue('game', gameSelected?.game);
+    setFieldValue('gameValue', gameSelected?.originalPrice);
+    setFieldValue('purchaseValue', gameSelected?.currentPrice);
+    setFieldValue('valuePrimary', gameSelected?.primaryValue);
+    setFieldValue('valueSecondary', gameSelected?.secondaryValue);
+  };
+
   return (
     <div className="flex items-center justify-center w-full">
       {isSubmitting ? (
         <Spinner />
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full ">
-          <FormInputField
+          <FormAutoCompleteField
+            value={gamesAutoCompleteValue}
+            setValue={setGamesAutoCompleteValue}
+            getItems={handleGetGamesItems}
+            setItem={(item) => handleChangeGame(item)}
+            suggestions={gamesSuggestions}
             label="Nome do Jogo"
-            placeholder="Digite o nome do jogo"
-            className="w-full  gap-16"
-            value={values.name}
-            onChange={(e) => setFieldValue('name', e.target.value)}
-            error={undefined}
+            renderKeys={['game']}
           />
 
           {values.name && (
