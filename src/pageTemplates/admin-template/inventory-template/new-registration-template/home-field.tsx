@@ -98,7 +98,7 @@ export const HomeField = ({}) => {
   const handleChangeGame = (gameId: string) => {
     const gameSelected = gamesData?.data.find((g) => g.id === gameId);
 
-    setFieldValue('game', gameSelected?.game);
+    setFieldValue('name', gameSelected?.game);
     setFieldValue('gameValue', gameSelected?.originalPrice);
     setFieldValue('purchaseValue', gameSelected?.currentPrice);
     setFieldValue('valuePrimary', gameSelected?.primaryValue);
