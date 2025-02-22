@@ -1,16 +1,15 @@
 import { Table } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { Spinner } from '@/components/ui/spinner';
-import { DashboardTableRow } from './dashboard-table-row';
 import { getDashboard } from '@/api/dashboard/get-dashboard';
+import { LastSaleTableRow } from './last-sale-table-row';
 
-export const DashboardTable = () => {
+export const LastSaleTable = () => {
   const { data: dashboardData, isLoading } = useQuery({
     queryFn: getDashboard,
     queryKey: ['dashboard'],
   });
 
-  const latestUsers = dashboardData?.data?.latestUsers || [];
   const latestSales = dashboardData?.data?.latestSales || [];
 
   return (
@@ -21,18 +20,17 @@ export const DashboardTable = () => {
         <div className="flex items-center w-full flex-1 border rounded-md">
           <Table
             headers={[
-              'Usuários mais recentes',
-              'Usuários ativos',
-              'Últimas vendas',
-              '',
-              '',
+              'Cliente',
+              'Número do cliente',
+              'Data de criação',
+              'Criador',
+              'Nome do produto',
+              'Tipo',
+              'Valor da venda',
             ]}
           >
-            {latestUsers.map((user, i) => (
-              <DashboardTableRow key={`user-${i}`} index={i} item={user} />
-            ))}
             {latestSales.map((sale, i) => (
-              <DashboardTableRow key={`sale-${i}`} index={i} item={sale} />
+              <LastSaleTableRow key={`sale-${i}`} index={i} item={sale} />
             ))}
           </Table>
         </div>

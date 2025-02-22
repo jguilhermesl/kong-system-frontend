@@ -1,47 +1,36 @@
 import { Button } from '@/components/ui/button';
 import { Table } from '@/components/ui/table';
 import { Financial } from '@/models/Financial';
-import { User } from '@/models/User';
+import { formatDate } from '@/utils/format-date';
 import { isEven } from '@/utils/is-even';
 import { Edit, Trash } from 'lucide-react';
 
-interface DashboardTableProps {
-  item: DashboardResponse;
+interface DashboardTableRowProps {
+  item: Financial;
   index: number;
 }
 
-interface DashboardResponse {
-  latestUsers: User[];
-  activeUsersCount: {
-    adminUsers: number;
-    clientUsers: number;
-  };
-  latestSales: Financial[];
-}
-
-export const DashboardTableRow = ({ item, index }: DashboardTableProps) => {
+export const LastSaleTableRow = ({ item, index }: DashboardTableRowProps) => {
   const handleDelete = async (itemID: string) => {
     alert('teste');
   };
 
   return (
     <Table.Row isEven={isEven(index + 1)}>
-      {/* Exibir os nomes dos usuários mais recentes */}
-      <Table.Col className="font-medium">
-        {item.latestUsers.map((user) => user.name).join(', ')}
-      </Table.Col>
+      <Table.Col className="font-medium">{item?.client?.name || '-'}</Table.Col>
 
-      {/* Exibir a contagem de usuários ativos */}
       <Table.Col className="font-medium">
-        {item.activeUsersCount.adminUsers} Admins /{' '}
-        {item.activeUsersCount.clientUsers} Clientes
+        {item?.client?.phone || '-'}
       </Table.Col>
-
-      {/* Exibir detalhes das últimas vendas */}
       <Table.Col className="font-medium">
-        {item.latestSales.map((sale) => sale.client).join(', ')}
+        {formatDate(item.createdAt)}
       </Table.Col>
-
+      <Table.Col className="font-medium">
+        {item?.createdBy.name || '-'}
+      </Table.Col>
+      <Table.Col className="font-medium">{item?.productName || '-'}</Table.Col>
+      <Table.Col className="font-medium">{item?.productType || '-'}</Table.Col>
+      <Table.Col className="font-medium">{item?.saleValue || '-'}</Table.Col>
       <Table.Col>
         <Button variant="outline" size="sm">
           <Edit className="mr-2 h-3 w-3" />

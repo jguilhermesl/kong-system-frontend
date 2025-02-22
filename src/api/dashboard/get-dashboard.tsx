@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse } from '@/models/ApiResponse';
 import { Financial } from '@/models/Financial';
 import { User } from '@/models/User';
 import api from '@/services/api';
+import { AxiosError } from 'axios';
 
 export interface DashboardResponse {
   latestUsers: User[];
@@ -22,8 +22,10 @@ export const getDashboard = async (): Promise<GetDashboardResponse> => {
     const response = await api.get<GetDashboardResponse>(`/dashboard`);
     return response.data;
   } catch (error) {
-    throw new Error(
-      (error as any)?.response?.data?.message || (error as Error)?.message
-    );
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
+
+    throw new Error('Erro desconhecido ao buscar dashboard');
   }
 };
