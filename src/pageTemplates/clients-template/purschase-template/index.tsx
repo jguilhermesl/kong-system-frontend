@@ -1,7 +1,7 @@
 'use client';
 
 import { CardPurchase } from './card-purchase';
-import { getClientPurchases } from '@/api/clients/get-client';
+import { getClientPurchases } from '@/api/clients/get-client-purchases';
 import { useQuery } from '@tanstack/react-query';
 import { PrivateLayout } from '@/components/layouts/private-layout.tsx';
 import { EmptyState } from '@/components/ui/empty-state';

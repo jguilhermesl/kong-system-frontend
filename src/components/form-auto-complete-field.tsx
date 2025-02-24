@@ -9,7 +9,7 @@ interface IFormAutoCompleteFieldProps
   placeholder?: string;
   description?: string;
   className?: string;
-  setItem: Dispatch<SetStateAction<string>>;
+  setItem: (value: any) => void;
   suggestions: any[];
   getItems: (value: string) => Promise<void>;
   value?: string;

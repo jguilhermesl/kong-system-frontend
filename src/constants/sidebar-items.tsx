@@ -10,6 +10,7 @@ import {
   Coins,
   Store,
   LayoutList,
+  Gamepad,
 } from 'lucide-react';
 
 export const CLIENT_SIDEBAR_ITEMS = [
@@ -105,6 +106,13 @@ export const ADMIN_SIDEBAR_ITEMS = [
     href: '/admin/financial',
     icon: (active: boolean) => (
       <CircleDollarSign size={24} color={active ? '#F96B04' : '#FFF'} />
+    ),
+  },
+  {
+    title: 'Jogos',
+    href: '/admin/games',
+    icon: (active: boolean) => (
+      <Gamepad size={24} color={active ? '#F96B04' : '#FFF'} />
     ),
   },
 ];

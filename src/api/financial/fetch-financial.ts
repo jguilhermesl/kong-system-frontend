@@ -4,7 +4,21 @@ import { Financial } from "@/models/Financial";
 import api from "@/services/api";
 
 export interface FetchFinancialResponse extends ApiResponse {
-  data: Financial[]
+  data: Financial[],
+  metrics: {
+    pendingPaymentValue: number,
+    totalProfit: number,
+    totalRevenue: number,
+    weeklySalesCount: number,
+    weeklySalesRevenue: number,
+    monthlyMetrics: {
+      month: number,
+      monthlyProfit: number,
+      monthlyRevenue: number,
+      salesCount: number,
+      year: number
+    }[]
+  }
 }
 
 export const fetchFinancial = async () => {

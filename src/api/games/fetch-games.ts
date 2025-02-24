@@ -7,9 +7,17 @@ export interface FetchGamesResponse extends ApiResponse {
   data: Game[]
 }
 
-export const fetchGames = async () => {
+interface FetchGamesProps {
+  search?: string
+}
+
+export const fetchGames = async ({ search }: FetchGamesProps) => {
   try {
-    const response = await api.get("/games");
+    const response = await api.get("/games", {
+      params: {
+        search
+      }
+    });
     return response.data as FetchGamesResponse;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || error?.message);

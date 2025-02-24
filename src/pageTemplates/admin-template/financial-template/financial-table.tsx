@@ -1,24 +1,33 @@
 'use client';
 import { Table } from '@/components/ui/table';
 import { FinancialTableRow } from './financial-table-row';
-import { fetchFinancial } from '@/api/financial/fetch-financial';
-import { useQuery } from '@tanstack/react-query';
 import { Financial } from '@/models/Financial';
-import { Spinner } from '@/components/ui/spinner';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
-export const FinancialTable = () => {
-  const { data: dataFinancial, isPending } = useQuery({
-    queryFn: fetchFinancial,
-    queryKey: ['financial'],
-  });
+interface FinancialProps {
+  financial: Financial[];
+}
 
-  const financial = dataFinancial?.data || [];
-
+export const FinancialTable = ({ financial }: FinancialProps) => {
   return (
-    <div className="flex items-center mt-5 w-full justify-center">
-      {isPending ? (
-        <Spinner />
-      ) : (
+    <Card className="col-span-6 mt-6">
+      <CardHeader className="flex-row items-center justify-between pb-8 relative">
+        <div className="space-y-1">
+          <CardTitle className="text-base font-medium">
+            Extrato financeiro
+          </CardTitle>
+          <CardDescription>
+            Aqui você visualiza as entradas e saídas da Kong Games
+          </CardDescription>
+        </div>
+      </CardHeader>
+      <CardContent>
         <Table
           headers={[
             'Data de Venda',
@@ -42,7 +51,7 @@ export const FinancialTable = () => {
             <FinancialTableRow key={index} index={index} item={item} />
           ))}
         </Table>
-      )}
-    </div>
+      </CardContent>
+    </Card>
   );
 };

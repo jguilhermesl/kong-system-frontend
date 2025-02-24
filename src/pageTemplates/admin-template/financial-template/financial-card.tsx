@@ -24,7 +24,7 @@ export const FinancialCard: React.FC<FinancialCardProps> = ({
         <div className="text-primary">{icon}</div>
       </div>
       <div className="flex gap-2 flex-col">
-        <Paragraph className="text-3xl font-semibold">R$ {value}</Paragraph>
+        <Paragraph className="text-3xl font-semibold">{value}</Paragraph>
         {description && (
           <Paragraph
             className={clsx('text-sm text-gray-500', {

@@ -24,6 +24,7 @@ export const ClientsTable = () => {
         <div className="flex items-center w-full flex-1 border rounded-md">
           <Table
             headers={[
+              '',
               'Nome',
               'Telefone',
               'Console',
