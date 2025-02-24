@@ -6,14 +6,14 @@ import { CardUsersActive } from './card-users-active';
 import { useQuery } from '@tanstack/react-query';
 
 export const UsersActive = () => {
-  const { data: dashboardData, isLoading } = useQuery<GetDashboardResponse>({
+  const { data: dashboardData } = useQuery<GetDashboardResponse>({
     queryFn: getDashboard,
     queryKey: ['dashboard'],
   });
   const dataUsersActive = dashboardData?.data.activeUsersCount;
 
   return (
-    <div className="w-full flex justify-between">
+    <div className="w-full flex gap-4">
       {dataUsersActive?.adminUsers && (
         <CardUsersActive
           type="adminUsers"

@@ -7,6 +7,13 @@ import {
   GetDashboardResponse,
 } from '@/api/dashboard/get-dashboard';
 import { LastUserTableRow } from './last-user-table-row';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 export const LastUserTable = () => {
   const { data: dashboardData, isLoading } = useQuery<GetDashboardResponse>({
@@ -16,31 +23,41 @@ export const LastUserTable = () => {
 
   const latestUsers = dashboardData?.data?.latestUsers || [];
 
-  console.log('Últimos usuários:', dashboardData?.data);
-
   return (
-    <div className="flex items-center w-full justify-center">
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="flex items-center w-full flex-1 border rounded-md">
-          <Table
-            headers={[
-              'CPF',
-              'Data de criação',
-              'Email',
-              'Id',
-              'Nome',
-              'Telefone',
-              'Cargo',
-            ]}
-          >
-            {latestUsers.map((user, i) => (
-              <LastUserTableRow key={`user-${i}`} index={i} item={user} />
-            ))}
-          </Table>
+    <Card className="col-span-6 mt-4 !w-[49%]">
+      <CardHeader className="flex-row items-center justify-between pb-8 relative">
+        <div className="space-y-1">
+          <CardTitle className="text-base font-medium">
+            Últimos usuários
+          </CardTitle>
+          <CardDescription>
+            Visualize os 10 últimos usuários criados no sistema
+          </CardDescription>
         </div>
-      )}
-    </div>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center w-full justify-center">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <div className="flex items-center w-full flex-1 border rounded-md">
+              <Table
+                headers={[
+                  'Nome',
+                  'Email',
+                  'Telefone',
+                  'Data de criação',
+                  'Cargo',
+                ]}
+              >
+                {latestUsers.map((user, i) => (
+                  <LastUserTableRow key={`user-${i}`} index={i} item={user} />
+                ))}
+              </Table>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
